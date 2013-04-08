@@ -915,10 +915,10 @@ body.dialog form {
     }
   }
   #existing_image_size_area {
-    #image_dialog_size_0 a { height: 30px; width: 30px; line-height: 30px; margin-top: 10px }
-    #image_dialog_size_1 a { height: 50px; width: 50px; line-height: 50px; margin-top:  0px }
-    #image_dialog_size_2 a { height: 70px; width: 70px; line-height: 70px; margin-top:-10px }
-    #image_dialog_size_3 a { height: 90px; width: 90px; line-height: 90px; margin-top:-20px }
+    #image_dialog_size_0 a { height: 45px; width: 60px; padding-top:15px; margin-top: 10px }
+    #image_dialog_size_1 a { height: 54px; width: 80px; padding-top:26px; margin-top:  0px }
+    #image_dialog_size_2 a { height: 66px; width: 100px; padding-top:33px; margin-top:-10px }
+    #image_dialog_size_3 a { height: 80px; width: 120px; padding-top:40px; margin-top:-20px }
   }
   #content {
     padding: 0px;

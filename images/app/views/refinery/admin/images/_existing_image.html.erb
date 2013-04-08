@@ -38,7 +38,7 @@
             # can't think of a decent way of making it so for even sets (e.g. 2,4,6,8,etc image sizes).
         -%>
             <li id="image_dialog_size_<%= index %>" class="image_dialog_size<%= ' selected' if size.to_s == 'medium' %>">
-              <%= link_to size.to_s, "##{size}",
+              <%= link_to "#{size.to_s}<br/>(#{pixels.to_s})".html_safe, "##{size}",
                           :'data-geometry' => pixels,
                           :'data-size' => size.to_s.parameterize,
                           :title   => "#{size} image (#{safe_pixels})",
