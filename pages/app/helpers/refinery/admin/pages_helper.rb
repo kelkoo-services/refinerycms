@@ -1,7 +1,7 @@
 module Refinery
   module Admin
     module PagesHelper
-      def parent_id_nested_set_options(current_page)
+      def parent_id_nested_set_options(current_page = nil)
         pages = []
         nested_set_options(::Refinery::Page, current_page) {|page| pages << page}
         # page.title needs the :translations association, doing something like
