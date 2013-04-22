@@ -29,6 +29,7 @@
 /*
  *= require ../wymeditor/setup
  *= require ../wymeditor/functions
+ *= require ../wymeditor/rangy-core
  *= require ../wymeditor/prototypes
  *= require ../wymeditor/classes
  *= require ../wymeditor/validators
