@@ -184,6 +184,7 @@ jQuery.extend(WYMeditor, {
     SRC                 : "src",
     TITLE               : "title",
     ALT                 : "alt",
+    WIDTH               :"width",
     DIALOG_LINK         : "Link",
     DIALOG_IMAGE        : "Image",
     DIALOG_TABLE        : "Table",
@@ -495,6 +496,7 @@ jQuery.fn.wymeditor = function(options) {
     titleSelector:     ".wym_title",
     altSelector:       ".wym_alt",
     textSelector:      ".wym_text",
+    widthSelector:     ".wym_width",
     
     rowsSelector:      ".wym_rows",
     colsSelector:      ".wym_cols",
@@ -1457,6 +1459,7 @@ WYMeditor.INIT_DIALOG = function(index) {
     jQuery(wym._options.srcSelector).val(jQuery(selected).attr(WYMeditor.SRC));
     jQuery(wym._options.titleSelector).val(jQuery(selected).attr(WYMeditor.TITLE));
     jQuery(wym._options.altSelector).val(jQuery(selected).attr(WYMeditor.ALT));
+    jQuery(wym._options.widthSelector).val(jQuery(selected).attr(WYMeditor.WIDTH));
   }
 
   //auto populate image fields if selected image
@@ -1467,6 +1470,9 @@ WYMeditor.INIT_DIALOG = function(index) {
       .val(jQuery(wym._selected_image).attr(WYMeditor.TITLE));
     jQuery(wym._options.dialogImageSelector + " " + wym._options.altSelector)
       .val(jQuery(wym._selected_image).attr(WYMeditor.ALT));
+    jQuery(wym._options.dialogImageSelector + " " + wym._options.widthSelector)
+      .val(jQuery(wym._selected_image).attr(WYMeditor.WIDTH));
+
   }
 
   jQuery(wym._options.dialogLinkSelector + " "
@@ -1501,7 +1507,8 @@ WYMeditor.INIT_DIALOG = function(index) {
         jQuery("img[src$=" + sStamp + "]", wym._doc.body)
             .attr(WYMeditor.SRC, sUrl)
             .attr(WYMeditor.TITLE, jQuery(wym._options.titleSelector).val())
-            .attr(WYMeditor.ALT, jQuery(wym._options.altSelector).val());
+            .attr(WYMeditor.ALT, jQuery(wym._options.altSelector).val())
+            .attr(WYMeditor.WIDTH, jQuery(wym._options.widthSelector).val());
       }
       window.close();
   });
@@ -4699,3 +4706,4 @@ WYMeditor.WymClassSafari.prototype.getTagForStyle = function(style) {
   if(/super/.test(style)) return 'sup';
   return false;
 };
+

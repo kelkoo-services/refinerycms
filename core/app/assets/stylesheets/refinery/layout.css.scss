@@ -919,10 +919,17 @@ body.dialog form {
     #image_dialog_size_1 a { height: 54px; width: 80px; padding-top:26px; margin-top:  0px }
     #image_dialog_size_2 a { height: 66px; width: 100px; padding-top:33px; margin-top:-10px }
     #image_dialog_size_3 a { height: 80px; width: 120px; padding-top:40px; margin-top:-20px }
+    #image_dialog_size_4 a { height: 90px; width: 130px; padding-top:45px; margin-top:-25px }
   }
   #content {
     padding: 0px;
   }
+  div.manual-size {
+    width: 80px;
+    input{width: 80px;}
+    label{float:left;}
+  }
+
 }
 #upload_image_area, #upload_resource_area {
   padding: 12px;

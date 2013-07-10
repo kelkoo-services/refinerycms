@@ -97,7 +97,6 @@ init_modal_dialogs = function(){
 
 refinery_dialog_success = function(e) {
   close_dialog();
-
   $.ajax({
     url: window.location.pathname,
     cache: false,
@@ -163,7 +162,6 @@ submit_and_continue = function(e, redirect_to) {
       wym.update();
     });
   }
-
   $('#continue_editing').val(true);
   $('#flash').fadeOut(250);
 
@@ -176,7 +174,6 @@ submit_and_continue = function(e, redirect_to) {
     , function(data) {
       if (($flash_container = $('#flash_container')).length > 0) {
         $flash_container.html(data);
-
         $('#flash').css({'width': 'auto', 'visibility': null}).fadeIn(550);
 
         $('.errorExplanation').not($('#flash_container .errorExplanation')).remove();
@@ -694,6 +691,13 @@ var image_dialog = {
     $('#existing_image_area_content ul li img').click(function(){
         image_dialog.set_image(this);
     });
+    //AGM Manually set image width, uncheck all others formats
+    $('#manually_resize_image').change(function(){
+        if ($('#manually_resize_image').is(':checked')){
+            $('#existing_image_size_area li.selected').removeClass('selected');
+            image_dialog.set_image(selected_img.first());
+        };
+    });
     //Select any currently selected, just uploaded...
     if ((selected_img = $('#existing_image_area_content ul li.selected img')).length > 0) {
       image_dialog.set_image(selected_img.first());
@@ -701,6 +705,7 @@ var image_dialog = {
   }
 
   , set_image: function(img){
+        alert('entra');
     if ($(img).length > 0) {
       $('#existing_image_area_content ul li.selected').removeClass('selected');
 
@@ -708,10 +713,18 @@ var image_dialog = {
       var imageId = $(img).attr('data-id');
       var geometry = $('#existing_image_size_area li.selected a').attr('data-geometry');
       var size = $('#existing_image_size_area li.selected a').attr('data-size');
+      var auto = true;
+      if( $("#manually_resize_image").is(':checked')){
+         alert('checked');
+         geometry = $('#manually_resize_width').val() + "x" + $('#manually_resize_width').val();
+         size = "Manual"
+         alert(geometry);
+         auto = false;
+      };
       var resize = $("#wants_to_resize_image").is(':checked');
 
-      image_url = resize ? $(img).attr('data-' + size) : $(img).attr('data-original');
-
+      image_url = (resize && auto) ? $(img).attr('data-' + size) : $(img).attr('data-original');
+      alert(image_url);
       if (parent) {
         if ((wym_src = parent.document.getElementById('wym_src')) != null) {
           wym_src.value = image_url;
@@ -724,7 +737,10 @@ var image_dialog = {
         }
         if ((wym_size = parent.document.getElementById('wym_size')) != null
             && typeof(geometry) != 'undefined') {
-          wym_size.value = geometry.replace(/[<>=]/g, '');
+            wym_size.value = geometry.replace(/[<>=]/g, '');
+        }
+        if ((wym_width = parent.document.getElementById('wym_width')) != null && !auto) {
+            wym_width.value = $('#manually_resize_width').val();
         }
       }
     }
@@ -736,7 +752,6 @@ var image_dialog = {
     {
       this.callback(img_selected);
     }
-
     close_dialog(e);
   }
 
@@ -756,6 +771,7 @@ var image_dialog = {
       $('#existing_image_size_area ul li').removeClass('selected');
       $(this).parent().addClass('selected');
       $('#existing_image_size_area #wants_to_resize_image').attr('checked', 'checked');
+      $('#manually_resize_image').prop('checked', false);
       image_dialog.set_image($('#existing_image_area_content ul li.selected img'));
       e.preventDefault();
     });
@@ -767,6 +783,9 @@ var image_dialog = {
         $('#existing_image_size_area ul li').removeClass('selected');
         image_dialog.set_image($('#existing_image_area_content ul li.selected img'));
       }
+    });
+    $('#manually_resize_width').change(function(){
+      image_dialog.set_image($('#existing_image_area_content ul li.selected img'));
     });
 
     image_area = $('#existing_image_area').not('#wym_iframe_body #existing_image_area');
@@ -955,6 +974,8 @@ var image_picker = {
     $(this.container).find(this.picker.options.field).val(
       this.image.id.replace("image_", "")
     ).trigger("change");
+
+        alert('ddd');
 
     var size = this.picker.options.thumbnail || 'original';
     this.image.src = $(this.image).attr('data-' + size);

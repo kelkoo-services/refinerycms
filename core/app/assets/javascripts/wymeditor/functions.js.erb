@@ -12,7 +12,6 @@ WYMeditor.loadCss = function(href) {
 /********** DIALOGS **********/
 
 WYMeditor.INIT_DIALOG = function(wym, selected, isIframe) {
-
   var selected = selected || wym.selected();
   var dialog = $("#"+wym._options.dialogId);
   var doc = $(dialog.find('iframe').contents());
@@ -177,7 +176,8 @@ WYMeditor.INIT_DIALOG = function(wym, selected, isIframe) {
 };
 
 WYMeditor.editor.prototype.close_dialog = function(e, cancelled) {
-  if (cancelled)
+    alert('aaa');
+    if (cancelled)
   {
     // if replaceable exists, replace it with its own html contents.
     if ((span = $(this._doc.body).find('span#' + this._current_unique_stamp)).length > 0) {
@@ -208,7 +208,13 @@ WYMeditor.editor.prototype.close_dialog = function(e, cancelled) {
   $(this._doc).find('a[href]').click(function(e){e.preventDefault();});
 
   if (e) {
-    e.preventDefault();
+      alert('llega');
+      $('iframe body img').each(function(){
+          $.each($(this), function(key, element) {
+              alert('key: ' + key + '\n' + 'value: ' + element);
+          });
+      });
+      e.preventDefault();
   }
 };
 
