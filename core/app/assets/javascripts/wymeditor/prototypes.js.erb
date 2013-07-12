@@ -1058,6 +1058,7 @@ WYMeditor.editor.prototype.mousedown = function(e) {
   $(wym._iframe).contents().find('.selected_by_wym').removeClass('selected_by_wym');
   if (!$.browser.mozilla) { $(wym._selected_image).addClass('selected_by_wym'); }
   if (!$.browser.webkit) { e.stopPropagation(); }
+  resize_image($(wym._selected_image));
 };
 
 /********** SKINS **********/
@@ -1104,3 +1105,11 @@ WYMeditor.editor.prototype.loadSkin = function() {
   }
 
 };
+
+
+function resize_image(item){
+    rel = item.attr('rel');
+    height = rel.split("x")[1];
+    item.attr('height', height);
+    item.attr('width', '');
+}

@@ -705,7 +705,6 @@ var image_dialog = {
   }
 
   , set_image: function(img){
-        alert('entra');
     if ($(img).length > 0) {
       $('#existing_image_area_content ul li.selected').removeClass('selected');
 
@@ -715,16 +714,13 @@ var image_dialog = {
       var size = $('#existing_image_size_area li.selected a').attr('data-size');
       var auto = true;
       if( $("#manually_resize_image").is(':checked')){
-         alert('checked');
          geometry = $('#manually_resize_width').val() + "x" + $('#manually_resize_width').val();
          size = "Manual"
-         alert(geometry);
          auto = false;
       };
       var resize = $("#wants_to_resize_image").is(':checked');
 
       image_url = (resize && auto) ? $(img).attr('data-' + size) : $(img).attr('data-original');
-      alert(image_url);
       if (parent) {
         if ((wym_src = parent.document.getElementById('wym_src')) != null) {
           wym_src.value = image_url;
@@ -975,7 +971,7 @@ var image_picker = {
       this.image.id.replace("image_", "")
     ).trigger("change");
 
-        alert('ddd');
+
 
     var size = this.picker.options.thumbnail || 'original';
     this.image.src = $(this.image).attr('data-' + size);

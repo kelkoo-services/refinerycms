@@ -118,7 +118,6 @@ WYMeditor.INIT_DIALOG = function(wym, selected, isIframe) {
             , 'height': $(this).height()
           });
         });
-
        // ensure we know where to put the image.
        if (replaceable == null) {
          replaceable = $(wym._doc.body).find("#" + wym._current_unique_stamp);
@@ -176,7 +175,6 @@ WYMeditor.INIT_DIALOG = function(wym, selected, isIframe) {
 };
 
 WYMeditor.editor.prototype.close_dialog = function(e, cancelled) {
-    alert('aaa');
     if (cancelled)
   {
     // if replaceable exists, replace it with its own html contents.
@@ -208,12 +206,6 @@ WYMeditor.editor.prototype.close_dialog = function(e, cancelled) {
   $(this._doc).find('a[href]').click(function(e){e.preventDefault();});
 
   if (e) {
-      alert('llega');
-      $('iframe body img').each(function(){
-          $.each($(this), function(key, element) {
-              alert('key: ' + key + '\n' + 'value: ' + element);
-          });
-      });
       e.preventDefault();
   }
 };
