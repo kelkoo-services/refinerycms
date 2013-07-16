@@ -1109,7 +1109,7 @@ WYMeditor.editor.prototype.loadSkin = function() {
 
 function resize_image(item){
     rel = item.attr('rel');
-    height = rel.split("x")[1];
-    item.attr('height', height);
-    item.attr('width', '');
+    width = rel.split("x")[1];
+    item.attr('height', '');
+    item.attr('width', width);
 }
