@@ -7,6 +7,8 @@ gem 'refinerycms-i18n', '~> 2.0.0'
 
 gem 'quiet_assets', :group => :development
 
+gem 'newrelic_rpm'
+
 # Database Configuration
 platforms :jruby do
   gem 'activerecord-jdbcsqlite3-adapter'
