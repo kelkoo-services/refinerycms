@@ -1,4 +1,4 @@
-require 'page_part_section_presenter'
+require 'refinery/pages/page_part_section_presenter'
 
 module Refinery
   module Pages
