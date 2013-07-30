@@ -38,6 +38,10 @@ module Refinery
       end
 
       def create
+        begin
+          @images = images_from_params
+          @image = @images.last
+=begin
         @images = []
         begin
           unless params[:image].present? and params[:image][:image].is_a?(Array)
@@ -47,6 +51,7 @@ module Refinery
               @images << (@image = ::Refinery::Image.create({:image => image}.merge(params[:image].except(:image))))
             end
           end
+=end
         rescue Dragonfly::FunctionManager::UnableToHandle
           logger.warn($!.message)
           @image = ::Refinery::Image.new
@@ -77,6 +82,24 @@ module Refinery
       end
 
     protected
+
+      def images_from_params
+        image_params.map { |image| ::Refinery::Image.create image }
+      end
+
+      def image_params
+        case
+        when params[:image].nil?
+          []
+        when params[:image][:image].nil?
+          [params[:image]]
+        else
+          alt = params[:image][:alt]
+          params[:image][:image].dup.map! do |image|
+           { :image => image, :alt => alt }
+          end
+        end
+      end
 
       def init_dialog
         @app_dialog = params[:app_dialog].present?
