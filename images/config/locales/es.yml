@@ -43,3 +43,6 @@ es:
           blank: Debes indicar qué imagen quieres subir
           too_big: La imagen debe pesar menos de %{size} bytes
           incorrect_format: Tu imagen debe ser un archivo JPG, PNG o GIF
+    attributes:
+      refinery/image:
+        alt: "Texto Alt"
