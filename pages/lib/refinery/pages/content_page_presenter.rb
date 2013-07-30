@@ -1,3 +1,5 @@
+require 'refinery/pages/page_part_section_presenter'
+
 module Refinery
   module Pages
     # A type of ContentPresenter which specifically knows how to render the html

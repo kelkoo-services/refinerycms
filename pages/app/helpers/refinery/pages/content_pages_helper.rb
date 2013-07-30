@@ -1,3 +1,5 @@
+require 'refinery/pages/content_page_presenter'
+
 module Refinery
   module Pages
     module ContentPagesHelper
