@@ -49,10 +49,10 @@ module Refinery
               # If (the job fetch 'image_uid' then resize to '40x40') has been stored already..
               # then serve the url from the datastore filesystem, s3, etc
               if thumb
-                app.datastore.url_for(thumb.uid)
+                app_images.datastore.url_for(thumb.uid)
               else
                 # ...otherwise if the job hasn't been stored, serve it from the Dragonfly server as usual
-                app.server.url_for(job)
+                app_images.server.url_for(job)
               end
             end
           end
