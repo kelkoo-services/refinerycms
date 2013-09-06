@@ -34,6 +34,29 @@ module Refinery
               s3.region = Refinery::Images.s3_region if Refinery::Images.s3_region
             end
           end
+
+          app_images.configure do |config|
+            config.server.before_serve do |job, env|
+              uid = job.store
+              # Keep track of its uid
+              # Holds all the job info, e.g fetch 'image_uid' then resize to '40x40'
+              Thumb.create!( :uid => uid, :job => job.serialize )
+            end
+
+            # Next we define the url for our processed images, overriding the default .url method...
+            config.define_url do |app, job, opts|
+              thumb = Thumb.find_by_job(job.serialize)
+              # If (the job fetch 'image_uid' then resize to '40x40') has been stored already..
+              # then serve the url from the datastore filesystem, s3, etc
+              if thumb
+                app.datastore.url_for(thumb.uid)
+              else
+                # ...otherwise if the job hasn't been stored, serve it from the Dragonfly server as usual
+                app.server.url_for(job)
+              end
+            end
+          end
+
         end
 
         def attach!(app)
@@ -47,6 +70,7 @@ module Refinery
             :entitystore => "file:#{Rails.root.join('tmp', 'dragonfly', 'cache', 'body')}"
           }
         end
+
       end
 
     end
