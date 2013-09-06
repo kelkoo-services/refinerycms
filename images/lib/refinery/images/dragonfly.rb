@@ -44,7 +44,7 @@ module Refinery
             end
 
             # Next we define the url for our processed images, overriding the default .url method...
-            config.define_url do |app, job, opts|
+            config.define_url do |app_images, job, opts|
               thumb = Refinery::Thumb.find_by_job(job.serialize)
               # If (the job fetch 'image_uid' then resize to '40x40') has been stored already..
               # then serve the url from the datastore filesystem, s3, etc
