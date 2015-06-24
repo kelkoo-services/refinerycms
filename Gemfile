@@ -2,97 +2,44 @@ source 'https://rubygems.org'
 
 gemspec
 
-# Add i18n support.
-gem 'refinerycms-i18n', '~> 2.0.0'
+# Add support for refinerycms-acts-as-indexed
+gem 'refinerycms-acts-as-indexed', '~> 1.0.0'
 
 gem 'quiet_assets', :group => :development
 
-gem 'newrelic_rpm'
-
 # Database Configuration
-platforms :jruby do
-  gem 'activerecord-jdbcsqlite3-adapter'
-  gem 'activerecord-jdbcmysql-adapter'
-  gem 'activerecord-jdbcpostgresql-adapter'
-  gem 'jruby-openssl'
+unless ENV['TRAVIS']
+  gem 'activerecord-jdbcsqlite3-adapter', :platform => :jruby
+  gem 'sqlite3', :platform => :ruby
 end
 
-platforms :ruby do
-  gem 'sqlite3'
-  gem 'mysql2'
-  gem 'pg'
+if !ENV['TRAVIS'] || ENV['DB'] == 'mysql'
+  gem 'activerecord-jdbcmysql-adapter', :platform => :jruby
+  gem 'jdbc-mysql', '= 5.1.13', :platform => :jruby
+  gem 'mysql2', :platform => :ruby
 end
 
-group :development, :test do
-  gem 'refinerycms-testing', '~> 2.0.3'
-  gem 'generator_spec', '~> 0.8.6'
-  gem 'guard-rspec', '~> 0.7.0'
-  gem 'fuubar', '~> 1.0.0'
+if !ENV['TRAVIS'] || ENV['DB'] == 'postgresql'
+  gem 'activerecord-jdbcpostgresql-adapter', :platform => :jruby
+  gem 'pg', :platform => :ruby
+end
 
-  platforms :mswin, :mingw do
-    gem 'win32console', '~> 1.3.0'
-    gem 'rb-fchange', '~> 0.0.5'
-    gem 'rb-notifu', '~> 0.0.4'
-  end
+gem 'jruby-openssl', :platform => :jruby
 
-  platforms :ruby do
-    gem 'spork', '~> 0.9.0'
-    gem 'guard-spork', '~> 0.5.2'
-
-    unless ENV['TRAVIS']
-      require 'rbconfig'
-      if RbConfig::CONFIG['target_os'] =~ /darwin/i
-        gem 'rb-fsevent', '~> 0.9.0'
-        gem 'ruby_gntp', '~> 0.3.4'
-      end
-      if RbConfig::CONFIG['target_os'] =~ /linux/i
-        gem 'rb-inotify', '~> 0.8.8'
-        gem 'libnotify',  '~> 0.7.2'
-        gem 'therubyracer', '~> 0.10.0'
-      end
-    end
-  end
-
-  platforms :jruby do
-    unless ENV['TRAVIS']
-      require 'rbconfig'
-      if RbConfig::CONFIG['target_os'] =~ /darwin/i
-        gem 'ruby_gntp', '~> 0.3.4'
-      end
-      if RbConfig::CONFIG['target_os'] =~ /linux/i
-        gem 'rb-inotify', '~> 0.8.8'
-        gem 'libnotify',  '~> 0.7.2'
-      end
-    end
-  end
+group :test do
+  gem 'refinerycms-testing', '~> 2.1.0'
+  gem 'generator_spec', '~> 0.9.0'
 end
 
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
   gem 'sass-rails'
-  gem 'coffee-rails'
+  gem 'coffee-rails', '~> 3.2.2'
   gem 'uglifier'
 end
 
-gem 'jquery-rails', '~> 2.2.1'
-
-# Use unicorn as the web server
-# gem 'unicorn'
-# gem 'mongrel'
-
-# Deploy with Capistrano
-# gem 'capistrano'
-
-# To use debugger
-# gem 'ruby-debug', :platform => :mri_18
-# or in 1.9.x:
-# gem 'ruby-debug19', :platform => :mri_19
-
-# For Heroku/s3:
-# gem 'fog'
-
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git', :branch => '3-2-stable'
-# gem 'rack', :git => 'git://github.com/rack/rack.git'
-# gem 'arel', :git => 'git://github.com/rails/arel.git'
+# Load local gems according to Refinery developer preference.
+if File.exist? local_gemfile = File.expand_path('../.gemfile', __FILE__)
+  eval File.read(local_gemfile)
+end

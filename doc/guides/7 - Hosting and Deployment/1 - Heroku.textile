@@ -71,7 +71,14 @@ group :production do
 end
 </shell>
 
+<<<<<<< HEAD
 WARNING. Using differing databases for development and production is not recommended. Occasionally, specific Rails idioms may have different effects on different databases. We encourage you to set up and develop on PostgreSQL if you intend to deploy your application to Heroku.
+=======
+WARNING. Using differing databases for development and production is not
+recommended. Occasionally, specific Rails idioms may have different effects
+on different databases. We encourage you to set up and develop on PostgreSQL
+if you intend to deploy your application to Heroku.
+>>>>>>> 2-1-main
 
 h5. Getting a place to store files
 
@@ -86,7 +93,11 @@ Now we just need to run bundle and add the changes to git:
 bundle install
 git add Gemfile
 git add Gemfile.lock
+<<<<<<< HEAD
 git commit "setup for Heroku"
+=======
+git commit -m "setup for Heroku"
+>>>>>>> 2-1-main
 </shell>
 
 h4. Step 2: Set up your app on Heroku:
@@ -165,7 +176,11 @@ gem install taps
 Now copy the data to your Heroku app.
 
 <shell>
+<<<<<<< HEAD
 heroku db:push
+=======
+heroku pg:push
+>>>>>>> 2-1-main
 </shell>
 
 If that command gives you the error "no such file to load -- taps/operation",

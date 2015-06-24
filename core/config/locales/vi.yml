@@ -47,13 +47,17 @@ vi:
         current: File hiện tại
       search:
         button_text: Tìm kiếm
-        results_for: Các kết quả tìm kiếm với truy vấn '%{query}'
+        results_for_html: "Các kết quả tìm kiếm với truy vấn &#8216;<em>%{query}</em>&#8217;"
         no_results: Rất tiếc, không có kết quả nào được tìm thấy
       delete:
         message: Bạn có thực sự chắc chắn khi xóa bỏ '%{title}' không?
       error_messages:
         problems_in_following_fields: Có lỗi xảy ra với những trường sau
       help: giúp đỡ
+      form_advanced_options_menu:
+        advanced_options: Các tùy chọn nâng cao
+        toggle_advanced_options: Mở các thiết lập meta-tag và menu
+        save_as_draft: Lưu trữ dưới dạng bản thảo
     message:
       close: Đóng
       close_this_message: Đóng thông báo này

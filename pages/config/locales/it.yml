@@ -45,13 +45,11 @@ it:
           create_content_section: Aggiungi la sezione dei contenuti
           delete_content_section: Elimina la sezione dei contenuti
         form_advanced_options:
-          toggle_advanced_options: Cliccare per accedere alle impostazioni dei meta tags e del menu.
           page_options: Opzioni avanzate
           parent_page: Pagina Superiore
           title: Titolo
           create_content_section: Crea la sezione dei contenuti
           delete_content_section: Elimina la sezione dei contenuti
-          advanced_options: Mostra/nascondi opzioni avanzate
           menu_title: Titolo menu
           custom_slug: Slug personalizzato
           explain_page_different_title: Se si desidera che la pagina abbia un titolo diverso da quello mostrato nel menu e dal titolo del browser, scriverlo qui.
@@ -63,7 +61,6 @@ it:
           show_in_menu_title: Mostra nel menu
           show_in_menu_description: Seleziona questa casella se si desidera che questa pagina sia visibile nel menu del sito
           show_in_menu_help: Deselezionare questa casella se si desidera rimuovere una pagina dal menu del sito. Questo può essere utile nel caso si disponga di una pagina a cui ci si può collegare direttamente ma che non si vuole mostrare nel menu.
-          save_as_draft: Salva come bozza
           skip_to_first_child: Salta alla prima pagina di livello inferiore
           skip_to_first_child_label: Reindirizza i visitatori verso la prima pagina di livello inferiore.
           skip_to_first_child_help: Questa opzione rende questo pagina collegata alla prima pagina sotto. Ciò può essere utile quando si raggruppano pagine.
@@ -73,13 +70,6 @@ it:
           menu_title_help: Se si desidera che il menu mostri un titolo diverso da quello mostrato nella pagigna, inserirlo qui.
           custom_slug_help: Uno slug è un identificatore leggibile usato per creare l'URL assoluto di una pagina. Per sovrascrivere lo slug che è automaticamente creato da Refinery, scrivere il proprio slug qui.
           custom_title_help: "Se si desidera che la pagina abbia un titolo diverso da quello mostrato nel menu, selezionare 'Testo' e inserirlo qui."
-        form_advanced_options_seo:
-          js:
-            content_section:
-              create: Crea sezione dei contenuti
-              already_exists: Una sezione di contenuti con quel titolo e già esistente, si prega di modificarlo.
-              title_empty: Non è stato inserito un titolo per la sezione dei contenuti, inseriscine uno.
-              confirm_delete: Ciò eliminerà la sezione dei contenuti %{section_name} e cancellerà tutti i contenuti che sono stati inseriti al suo interno. Sei sicuro?
         actions:
           create_new_page: Crea una nuova pagina
           reorder_pages: Riordina le pagine

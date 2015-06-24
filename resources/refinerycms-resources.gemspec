@@ -1,6 +1,5 @@
 # Encoding: UTF-8
-$:.push File.expand_path('../../core/lib', __FILE__)
-require 'refinery/version'
+require File.expand_path('../../core/lib/refinery/version', __FILE__)
 
 version = Refinery::Version.to_s
 
@@ -20,7 +19,7 @@ Gem::Specification.new do |s|
   s.files             = `git ls-files`.split("\n")
   s.test_files        = `git ls-files -- spec/*`.split("\n")
 
-  s.add_dependency 'dragonfly',        '~> 0.9.8'
-  s.add_dependency 'rack-cache',       '>= 0.5.3'
+  s.add_dependency 'dragonfly',        '~> 0.9.12'
+  s.add_dependency 'acts_as_indexed',  '~> 0.8.0'
   s.add_dependency 'refinerycms-core', version
 end

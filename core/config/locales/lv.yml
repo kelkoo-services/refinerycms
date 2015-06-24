@@ -47,13 +47,17 @@ lv:
         current: Pašreizējais Fails
       search:
         button_text: Meklēt
-        results_for: Meklēšanas rezultāti pēc '%{query}'
+        results_for_html: "Meklēšanas rezultāti pēc &#8216;<em>%{query}</em>&#8217;"
         no_results: Atvainojiet, nekas netika atrasts
       delete:
         message: Vai tiešām vēlaties dzēst '%{title}'?
       error_messages:
         problems_in_following_fields: Problēmas sekojošos ievades laukos
       help: palīdzība
+      form_advanced_options_menu:
+        advanced_options: Papildu Opcijas
+        toggle_advanced_options: Spied, lai piekļūtu meta tagiem un izvēlnes opcijām
+        save_as_draft: Saglabāt kā melnrakstu
     message:
       close: Aizvērt
       close_this_message: Aizvērt šo paziņojumu

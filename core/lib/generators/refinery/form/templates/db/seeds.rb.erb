@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 (Refinery.i18n_enabled? ? Refinery::I18n.frontend_locales : [:en]).each do |lang|
+=======
+Refinery::I18n.frontend_locales.each do |lang|
+>>>>>>> 2-1-main
   I18n.locale = lang
 
   if defined?(Refinery::User)
@@ -11,6 +15,7 @@
   end
 
   if defined?(Refinery::Page)
+<<<<<<< HEAD
     page = Refinery::Page.create(
       :title => "<%= class_name.pluralize.underscore.titleize %>",
       :link_url => "/<%= plural_name %>/new",
@@ -26,6 +31,23 @@
     Refinery::Pages.default_parts.each do |default_page_part|
       page.parts.create(:title => default_page_part, :body => nil)
       thank_you_page.parts.create(:title => default_page_part, :body => nil)
+=======
+    url = "/<%= [(namespacing.underscore if namespacing.underscore != plural_name), plural_name].compact.join('/') %>"
+    page = Refinery::Page.where(:link_url => url).first_or_create!(
+      :title => "<%= class_name.pluralize.underscore.titleize %>",
+      :deletable => false,
+      :menu_match => "^#{url}(\/|\/.+?|)$"
+    )
+    thank_you_page = Refinery::Page.where(:link_url => "#{url}/thank_you").first_or_create!(
+      :title => "Thank You",
+      :deletable => false,
+      :show_in_menu => false
+    )
+    thank_you_page.update_attribute(:parent, page)
+    Refinery::Pages.default_parts.each do |default_page_part|
+      page.parts.where(:title => default_page_part).first_or_create!(:body => nil)
+      thank_you_page.parts.where(:title => default_page_part).first_or_create!(:body => nil)
+>>>>>>> 2-1-main
     end
   end
 end

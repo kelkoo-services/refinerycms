@@ -50,7 +50,7 @@ fr:
         current: Fichier courrant
       search:
         button_text: Chercher
-        results_for: "Résultats de la recherche : '%{query}'"
+        results_for_html: "Résultats de la recherche &#8216;<em>%{query}</em>&#8217;"
         no_results: Aucun résultat ne correspond à votre recherche
         cancel_search: 'Annuler la recherche'
         search_input_notice: "Entrez ici le texte recherché. La longueur minimale est de 3 caractères."
@@ -59,6 +59,10 @@ fr:
       error_messages:
         problems_in_following_fields: Les champs suivants comportent des problèmes
       help: aide
+      form_advanced_options_menu:
+        advanced_options: Options avancées
+        toggle_advanced_options: Cliquer ici pour paraméter les étiquettes et accéder au menu des options
+        save_as_draft: Enregistrer comme brouillon
     message:
       close: Fermer
       close_this_message: Fermer ce message

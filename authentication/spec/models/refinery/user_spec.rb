@@ -51,7 +51,7 @@ module Refinery
     context "validations" do
       # email and password validations are done by including devises validatable
       # module so those validations are not tested here
-      let(:attr) do
+      let(:attributes) do
         {
           :username => "Refinery CMS",
           :email => "refinery@cms.com",
@@ -61,12 +61,28 @@ module Refinery
       end
 
       it "requires username" do
-        User.new(attr.merge(:username => "")).should_not be_valid
+        User.new(attributes.merge(:username => "")).should_not be_valid
       end
 
       it "rejects duplicate usernames" do
-        User.create!(attr)
-        User.new(attr.merge(:email => "another@email.com")).should_not be_valid
+        User.create!(attributes)
+        User.new(attributes.merge(:email => "another@email.com")).should_not be_valid
+      end
+
+      it "rejects duplicate usernames regardless of case" do
+        User.create!(attributes)
+        User.new(attributes.merge(
+          :username => attributes[:username].upcase,
+          :email => "another@email.com")
+        ).should_not be_valid
+      end
+
+      it "rejects duplicate usernames regardless of whitespace" do
+        User.create!(attributes)
+        new_user = User.new(attributes.merge(:username => " Refinery   CMS "))
+        new_user.valid?
+        new_user.username.should == 'refinery cms'
+        new_user.should_not be_valid
       end
 
       it "rejects duplicate usernames regardless of case" do
@@ -152,10 +168,46 @@ module Refinery
     end
 
     describe "#plugins=" do
-      it "assigns plugins to user" do
-        plugin_list = ["refinery_one", "refinery_two", "refinery_three"]
-        user.plugins = plugin_list
-        user.plugins.collect { |p| p.name }.should == plugin_list
+      context "when user is not persisted" do
+        it "does not add plugins for this user" do
+          new_user = FactoryGirl.build(:user)
+          new_user.plugins = ["test"]
+          new_user.plugins.should be_empty
+        end
+      end
+
+      context "when user is persisted" do
+        it "only assigns plugins with names that are of string type" do
+          user.plugins = [1, :test, false, "refinery_one"]
+          user.plugins.collect(&:name).should eq(["refinery_one"])
+        end
+
+        it "won't raise exception if plugins position is not a number" do
+          Refinery::UserPlugin.create! :name => "refinery_one", :user_id => user.id
+
+          expect { user.plugins = ["refinery_one", "refinery_two"] }.to_not raise_error
+        end
+
+        context "when no plugins assigned" do
+          it "assigns them to user" do
+            user.plugins.should eq([])
+
+            plugin_list = ["refinery_one", "refinery_two", "refinery_three"]
+            user.plugins = plugin_list
+            user.plugins.collect(&:name).should eq(plugin_list)
+          end
+        end
+
+        context "when plugins are already assigned" do
+          it "only adds new ones and deletes ones that are not used" do
+            user.plugins = ["refinery_one", "refinery_two", "refinery_three"]
+            new_plugin_list = ["refinery_one", "refinery_two", "refinery_four"]
+
+            user.plugins = new_plugin_list
+            user.plugins.reload
+            user.plugins.collect(&:name).should eq(new_plugin_list)
+          end
+        end
       end
     end
 

@@ -9,7 +9,7 @@ ru:
         delete: Удалить этого пользователя навсегда
         edit: Редактировать этого пользователя
         update:
-          cannot_remove_user_plugin_from_current_user: "Нельзя отключить модуль «Пользователи» у самого себя."
+          lockout_prevented: "Нельзя отключить модуль «Пользователи» у самого себя."
         form:
           blank_password_keeps_current: 'Оставьте поле пустым, если не хотите изменить пароль'
           plugin_access: Доступ к плагинам
@@ -82,8 +82,6 @@ ru:
         subject: "Инструкции по восстановлению пароля"
       unlock_instructions:
         subject: "Инструкции по разблокировке учётной записи"
-    sessions:
-      signed_in: 'Вы вошли.'
   activerecord:
     models:
       refinery/user: пользователь

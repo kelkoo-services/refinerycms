@@ -8,17 +8,21 @@ This guide covers getting up and running with Refinery CMS. After reading it, yo
 
 endprologue.
 
-WARNING. This guide is based on Refinery CMS 2.0.0 so some of the code shown here may not work in earlier versions of Refinery.
+WARNING. This guide is based on Refinery CMS 2.1.0 so some of the code shown here may not work in earlier versions of Refinery.
 
 h3. Guide Assumptions
 
 This guide is designed for beginners who want to get started with a Refinery CMS site from scratch. It does not assume that you have any prior experience with Refinery. However, to get the most out of it, you need to have some prerequisites installed:
 
+<<<<<<< HEAD:doc/guides/1 - Getting Started/2 - Getting Started.textile
 * The "Ruby":http://www.ruby-lang.org/en/downloads language version 1.8.7 or higher (1.9.3 recommended)
 
 TIP: Do not use Ruby 1.9.1 as Rails 3.x is not compatible with it. Use 1.9.3 for smooth sailing.
 
 * The "RubyGems":http://rubyforge.org/frs/?group_id=126 packaging system
+=======
+* The "Ruby":http://www.ruby-lang.org/en/downloads language version 1.9.3 or higher
+>>>>>>> 2-1-main:doc/guides/1 - Getting Started/2 - Getting Started.textile
 * A working installation of the "SQLite3 Database":http://www.sqlite.org
 * A working installation of "ImageMagick":http://www.imagemagick.org/script/install-source.php
 
@@ -29,6 +33,8 @@ TIP: It is recommended that developers use RVM to manage Ruby versions and gems.
 <shell>
 rvm use --create ruby-1.9.3@refinery
 </shell>
+
+TIP: If you are not using an RVM gemset and you have Rails 4 installed, be sure to read the "Rails Application Templates":#rails-application-templates section below.
 
 Refinery is a Ruby on Rails web application. If you have no prior experience with Rails, you will find a very steep learning curve diving straight into Refinery. There are some good free resources on the Internet for learning Rails, including:
 
@@ -50,7 +56,7 @@ The Refinery philosophy includes several guiding principles:
 
 h4. Refinery's architecture
 
-Refinery comprises of several Rails Engines. Each extension acts like a mini Rails application with its own routes and views. Refinery is architected like this so that it keeps out of the way of any custom development you will do in the +/app+ directory.
+Refinery is comprised of several Rails Engines. Each extension acts like a mini Rails application with its own routes and views. Refinery is architected like this so that it keeps out of the way of any custom development you will do in the +/app+ directory.
 
 h4. Core extensions
 
@@ -78,22 +84,41 @@ h4. Installing Refinery
 There are two popular ways to install Refinery: RubyGems and Rails Application Templates. We will discuss both and how you can get up and running with either.
 
 h5. RubyGems
+<<<<<<< HEAD:doc/guides/1 - Getting Started/2 - Getting Started.textile
+=======
+
+>>>>>>> 2-1-main:doc/guides/1 - Getting Started/2 - Getting Started.textile
 The easiest way to install Refinery is to take advantage of RubyGems.
 
 <shell>
-# gem install refinerycms
+$ gem install refinerycms
 </shell>
 
 NOTE: This step may take some time to load as it needs to download and install all the ruby gems Refinery depends on.
 
+NOTE: If +gem install refinerycms+ fails with an error message saying +ERROR:  While executing gem ... (Gem::ImpossibleDependenciesError)+, run +gem install rails -v=3.2.15+ then +gem install refinerycms+
+
 TIP. If you're working on Windows, you should be aware that the vast majority of Refinery development is done in Unix environments. If at all possible, we suggest that you develop on a Linux based operating system.
 
 h5. Rails Application Templates
+<<<<<<< HEAD:doc/guides/1 - Getting Started/2 - Getting Started.textile
+These application templates are another very easy way to install Refinery, and allow for a great deal of control of your installation. You can create a new Refinery application by typing:
+=======
+
 These application templates are another very easy way to install Refinery, and allow for a great deal of control of your installation. You can create a new Refinery application by typing:
 
 <shell>
-$ rails new rickrockstar -m http://refinerycms.com/t/2.0.0
+$ rails new rickrockstar -m http://refinerycms.com/t/2.1.0
 </shell>
+
+TIP. As *Refinery CMS is not compatible with Rails 4* you may also need to specify the Rails version in case you are not using an RVM gemset:
+>>>>>>> 2-1-main:doc/guides/1 - Getting Started/2 - Getting Started.textile
+
+<shell>
+$ rails _3.2.15_ new rickrockstar -m http://refinerycms.com/t/2.1.0
+</shell>
+
+WARNING. If you create an application from the template, be sure to skip running +refinerycms rickrockstar+ as listed in the next section&mdash;the template will have completed this step.
 
 h4. Creating a Refinery application
 
@@ -129,11 +154,20 @@ You actually have a functional Refinery application already installed. To see it
 $ rails server
 </shell>
 
-This will fire up an instance of the built-in Rails web server by default (called WEBrick). To see your application in action, open a browser window and navigate to "http://localhost:3000":http://localhost:3000. You should be greeted with a screen prompting you to create your first Refinery user.
+This will fire up an instance of the built-in Rails web server by default (called WEBrick). To see your application in action, open a browser window and navigate to "http://localhost:3000/refinery":http://localhost:3000/refinery. You should be greeted with a screen prompting you to create your first Refinery user.
 
 !/system/images/W1siZiIsIjIwMTIvMDMvMDQvMTRfMTFfMjRfOTkzX3NldF91cF95b3VyX2ZpcnN0X3VzZXIucG5nIl0sWyJwIiwidGh1bWIiLCI2MTB4Il1d/set-up-your-first-user.png!
 
+<<<<<<< HEAD:doc/guides/1 - Getting Started/2 - Getting Started.textile
+!/system/images/W1siZiIsIjIwMTIvMDMvMDQvMTRfMTFfMjRfOTkzX3NldF91cF95b3VyX2ZpcnN0X3VzZXIucG5nIl0sWyJwIiwidGh1bWIiLCI2MTB4Il1d/set-up-your-first-user.png!
+
 TIP: To stop the web server, hit +Ctrl&#43;C+ in the terminal window where it's running.
+=======
+TIP: To stop the web server, hit +Ctrl&#43;C+ in the terminal window where it's running.
+
+WARNING: If you do not see this page, but rather see a default page for Rails, ensure you have removed +public/index.html+. The installer should have removed this file for you, but in certain circumstances, it may persist.
+WARNING: If you encounter a routing error afterwards, run rails generate refinery:cms --fresh-installation
+>>>>>>> 2-1-main:doc/guides/1 - Getting Started/2 - Getting Started.textile
 
 If you see this screen it means you have set up everything correctly and your Refinery CMS site is up and running.
 
@@ -143,7 +177,11 @@ Fill out the sign up form to create your first user. This will be the super user
 
 Once you've created your first user you'll see Refinery's "Dashboard".
 
+<<<<<<< HEAD:doc/guides/1 - Getting Started/2 - Getting Started.textile
 !/system/images/W1siZiIsIjIwMTAvMTIvMDIvMTJfMjhfNDVfOTUzX3JlZmluZXJ5X2Rhc2hib2FyZF9zbWFsbGVyLnBuZyJdXQ/12_28_45_953_refinery_dashboard_smaller.png!
+=======
+!/system/images/W1siZiIsIjIwMTMvMDYvMDkvMjNfNTdfNDRfNzIxX2Rhc2hib2FyZC5wbmciXV0/dashboard.png!
+>>>>>>> 2-1-main:doc/guides/1 - Getting Started/2 - Getting Started.textile
 
 h4. Setting Your Site Name
 
@@ -201,7 +239,7 @@ Refinery comes with a rake task called +refinery:override+ which allows you to c
 
 <shell>
 $ rake refinery:override view=refinery/pages/show
-$ Copied view template file to app/views/refinery/pages/show.html.erb
+    create  app/views/refinery/pages/show.html.erb
 </shell>
 
 Now edit +app/views/refinery/pages/show.html.erb+ and it will look like this:
@@ -219,10 +257,10 @@ Every view in Refinery has an instance variable called +@page+ available. The be
 Replace the contents of +app/views/refinery/pages/show.html.erb+ with this:
 
 <erb>
-<section id='body_content'>
+<section id='body'>
   <%=raw @page.content_for(:body) %>
 </section>
-<section id='side_body_content'>
+<section id='side_body'>
   <%=raw @page.content_for(:side_body) %>
 </section>
 </erb>
@@ -233,7 +271,11 @@ As you can see we're going to render a view with some HTML5 tags and along with 
 
 When you edit the About page you'll see something like this:
 
+<<<<<<< HEAD:doc/guides/1 - Getting Started/2 - Getting Started.textile
 !/system/images/W1siZiIsIjIwMTAvMTIvMDIvMTJfMzJfNTFfODY0X2VkaXRpbmdfYWJvdXRfcGFnZV9zbWFsbC5wbmciXV0/12_32_51_864_editing_about_page_small.png!
+=======
+!/system/images/W1siZiIsIjIwMTMvMDYvMDkvMjNfNTdfNDRfNDg5X2Fib3V0X3BhZ2VfZWRpdC5wbmciXV0/about_page_edit.png!
+>>>>>>> 2-1-main:doc/guides/1 - Getting Started/2 - Getting Started.textile
 
 You'll notice two tabs on the page: "Body" and "Side Body". These are +PageParts+, or in other words, a single piece of content attached to this page that you can render in your view. There is a "Body" tab with some content on this screen. To render that same content in your view, put:
 
@@ -255,7 +297,7 @@ body {
   line-height: 18px;
 }
 
-#body_content, #side_body_content {
+#body, #side_body {
   float: left;
   width: 45%;
   background: white;
@@ -281,7 +323,7 @@ body {
 }
 </erb>
 
-TIP: When on the home page of your site, Refinery automatically loads an extra stylesheet located in +app/assets/stylesheets/home.css.scss+ as often sites have a different style on the home page.
+TIP: You can add CSS for specific pages by using their slug with -page. The default for the home page is 'home-page'.
 
 Now when you view your front end at "http://localhost:3000":http://localhost:3000 you'll notice your site has a grey background, with a horizontal menu and two white content areas.
 
@@ -369,6 +411,7 @@ bundle install
 rails generate refinery:events
 rake db:migrate
 rake db:seed
+Please restart your rails server.
 ------------------------
 </shell>
 
@@ -387,7 +430,11 @@ TIP: When new extensions are added it's a good idea to restart your server for n
 
 Now go to the backend of your Refinery site ("http://localhost:3000/refinery":http://localhost:3000/refinery) and you'll notice a new tab called "Events". Click on "Add new event" and you'll see something like this:
 
+<<<<<<< HEAD:doc/guides/1 - Getting Started/2 - Getting Started.textile
 !/system/images/W1siZiIsIjIwMTAvMTIvMDIvMTJfMzBfMDlfODJfZXZlbnRzX3BsdWdpbl9zbWFsbGVyLnBuZyJdXQ/12_30_09_82_events_plugin_smaller.png!
+=======
+!/system/images/W1siZiIsIjIwMTMvMDYvMDkvMjNfNTdfNDRfODYwX2V2ZW50X3BhZ2VfZWRpdC5wbmciXV0/event_page_edit.png!
+>>>>>>> 2-1-main:doc/guides/1 - Getting Started/2 - Getting Started.textile
 
 You'll see the entire form has been generated for you based off the field types you specified when generating the events section. The blurb has a visual editor, the date field is a date picker and the photo allows you to pick or upload a new photo from a built-in Refinery dialog.
 

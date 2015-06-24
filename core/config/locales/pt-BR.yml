@@ -34,8 +34,8 @@ pt-BR:
         delete: Apagar
         close: Fechar
       image_picker:
-        none_selected: "Atualmente não existe nenhuma %{what} selecionado, por favor clique aqui para adicionar um."
-        remove_current: "Remover %{what} atual"
+        none_selected: "Atualmente não existe nenhuma imagem selecionado, por favor clique aqui para adicionar um."
+        remove_current: "Remover imagem atual"
         change: Clique aqui para selecionar a imagem
         show: Mostrar
       resource_picker:
@@ -47,13 +47,17 @@ pt-BR:
         current: Arquivo atual
       search:
         button_text: Buscar
-        results_for: "Resultados da busca por '%{query}'"
+        results_for_html: "Resultados da busca por &#8216;<em>%{query}</em>&#8217;"
         no_results: "Desculpe, nenhum resultado foi encontrado."
       delete:
         message: Você tem certeza que deseja apagar '%{title}'?
       error_messages:
         problems_in_following_fields: Há problemas com os seguintes campos
       help: ajuda
+      form_advanced_options_menu:
+        advanced_options: Opções avançadas
+        toggle_advanced_options: Clique aqui para acessar as configurações de meta tag e opções do menu
+        save_as_draft: Salvar como rascunho
     message:
       close: Fechar
       close_this_message: Fechar esta mensagem

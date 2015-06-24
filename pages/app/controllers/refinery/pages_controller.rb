@@ -1,10 +1,17 @@
 module Refinery
   class PagesController < ::ApplicationController
+<<<<<<< HEAD
     before_filter :find_page, :set_canonical, :except => [:preview]
     before_filter :find_page_for_preview, :only => [:preview]
+=======
+    include Pages::RenderOptions
+
+    before_filter :find_page, :set_canonical
+    before_filter :error_404, :unless => :current_user_can_view_page?
+>>>>>>> 2-1-main
 
     # Save whole Page after delivery
-    after_filter { |c| c.write_cache? }
+    after_filter :write_cache?
 
     # This action is usually accessed with the root path, normally '/'
     def home
@@ -22,6 +29,7 @@ module Refinery
     #   GET /about/mission
     #
     def show
+<<<<<<< HEAD
       if current_user_can_view_page?
         if should_skip_to_first_child?
           redirect_to refinery.url_for(first_live_child.url)
@@ -41,16 +49,38 @@ module Refinery
 
     def preview
       render_with_templates?(:action => :show)
+=======
+      if should_skip_to_first_child?
+        redirect_to refinery.url_for(first_live_child.url) and return
+      elsif page.link_url.present?
+        redirect_to page.link_url and return
+      elsif should_redirect_to_friendly_url?
+        redirect_to refinery.url_for(page.url), :status => 301 and return
+      end
+
+      render_with_templates?
+>>>>>>> 2-1-main
     end
 
   protected
 
     def requested_friendly_id
-      "#{params[:path]}/#{params[:id]}".split('/').last
+      if ::Refinery::Pages.scope_slug_by_parent
+        # Pick out last path component, or id if present
+        "#{params[:path]}/#{params[:id]}".split('/').last
+      else
+        # Remove leading and trailing slashes in path, but leave internal
+        # ones for global slug scoping
+        params[:path].to_s.gsub(%r{\A/+}, '').presence || params[:id]
+      end
     end
 
     def should_skip_to_first_child?
       page.skip_to_first_child && first_live_child
+    end
+
+    def should_redirect_to_friendly_url?
+      requested_friendly_id != page.friendly_id || ::Refinery::Pages.scope_slug_by_parent && params[:path].present? && params[:path].match(page.root.slug).nil?
     end
 
     def current_user_can_view_page?
@@ -79,7 +109,7 @@ module Refinery
       @page ||= case action_name
                 when "home"
                   Refinery::Page.where(:link_url => '/').first
-                when "show", "preview"
+                when "show"
                   Refinery::Page.find_by_path_or_id(params[:path], params[:id])
                 end
       @page || (error_404 if fallback_to_404)
@@ -87,14 +117,8 @@ module Refinery
 
     alias_method :page, :find_page
 
-    def render_with_templates?(render_options = {})
-      if Refinery::Pages.use_layout_templates && page.layout_template.present?
-        render_options[:layout] = page.layout_template
-      end
-      if Refinery::Pages.use_view_templates && page.view_template.present?
-        render_options[:action] = page.view_template
-      end
-      render render_options if render_options.any?
+    def set_canonical
+      @canonical = refinery.url_for @page.canonical if @page.present?
     end
 
     def set_canonical
@@ -103,7 +127,11 @@ module Refinery
 
     def write_cache?
       if Refinery::Pages.cache_pages_full && !refinery_user?
+<<<<<<< HEAD
         cache_page(response.body, File.join('', 'refinery', 'cache', 'pages', request.path.sub("//", "/")).to_s)
+=======
+        cache_page(response.body, File.join('', 'refinery', 'cache', 'pages', request.path).to_s)
+>>>>>>> 2-1-main
       end
     end
   end

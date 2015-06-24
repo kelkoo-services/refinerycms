@@ -30,6 +30,8 @@ module Refinery
 
       append_gitignore!
 
+      append_asset_pipeline!
+
       forced_overwriting?
 
       copy_files!
@@ -49,6 +51,18 @@ module Refinery
 
   protected
 
+<<<<<<< HEAD
+=======
+    def append_asset_pipeline!
+      application_css = 'app/assets/stylesheets/application.css'
+      if destination_path.join(application_css).file?
+        insert_into_file application_css, %q{*= require refinery/formatting
+ *= require refinery/theme
+ },      :before => "*= require_self"
+      end
+    end
+
+>>>>>>> 2-1-main
     def append_gemfile!
       if destination_path.join('Gemfile').file? &&
          destination_path.join('Gemfile').read !~ %r{group :development, :test do\n.+?gem 'sqlite3'\nend}m
@@ -149,6 +163,27 @@ gem 'pg'
       %w(development test production).map{|e| "config/environments/#{e}.rb"}.each do |env|
         next unless destination_path.join(env).file?
 
+<<<<<<< HEAD
+=======
+        # Refinery does not necessarily expect action_mailer to be available as
+        # we may not always require it (currently only the authentication extension).
+        # Rails, however, will optimistically place config entries for action_mailer.
+        current_mailer_config = File.read(destination_path.join(env)).to_s.
+                                     match(%r{^\s.+?config\.action_mailer\..+([\w\W]*\})?}).
+                                     to_a.flatten.first
+
+        if current_mailer_config.present?
+          new_mailer_config = [
+            "  if config.respond_to?(:action_mailer)",
+            current_mailer_config.gsub(%r{\A\n+?}, ''). # remove extraneous newlines at the start
+                                  gsub(%r{^\ \ }) { |line| "  #{line}" }, # add indentation on each line
+            "  end"
+          ].join("\n")
+
+          gsub_file env, current_mailer_config, new_mailer_config, :verbose => false
+        end
+
+>>>>>>> 2-1-main
         gsub_file env, "config.assets.compile = false", "config.assets.compile = true", :verbose => false
       end
     end

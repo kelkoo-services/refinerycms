@@ -1,9 +1,14 @@
 language: ruby
+<<<<<<< HEAD
 before_install:
   - 'if [[ "$TRAVIS_RUBY_VERSION" =~ "jruby" ]] ; then gem update --system ; fi'
+=======
+cache: bundler
+bundler_args: --without development
+>>>>>>> 2-1-main
 before_script:
   - "sh -e /etc/init.d/xvfb start"
-  - "bundle exec rake refinery:testing:dummy_app > /dev/null"
+  - "bundle exec rake refinery:testing:dummy_app"
 script:
   - "DISPLAY=:99.0 bundle exec rspec ./*/spec"
 notifications:
@@ -13,6 +18,16 @@ notifications:
     skip_join: true
     channels:
       - "irc.freenode.org#refinerycms"
+<<<<<<< HEAD
+=======
+  campfire:
+    on_success: always
+    on_failure: always
+    rooms:
+      - secure: "X5X39BTgXacSdc32F8mIjJKPqm5dZzmgZfJ14qYpJeMETTdA5JfByt2uCfU8\njJkkxT+XGWta0bSSlRIHQJO6pK26U94A95VYDX0jNuneKEnsoAsqJ6U0VY6v\nH5oxXMAZ2perP/FH9ZsPNR+ulyFfbMQCeGPJw5AXKZQqzf6qPOI="
+  webhooks:
+    - https://webhooks.gitter.im/e/b5d48907cdc89864b874
+>>>>>>> 2-1-main
 env:
   - DB=postgresql
   - DB=mysql
@@ -23,9 +38,16 @@ matrix:
     - rvm: jruby-19mode
     - rvm: jruby-18mode
 rvm:
+<<<<<<< HEAD
   - 1.9.3
   - 1.8.7
   - rbx-19mode
   - jruby-19mode
   - rbx-18mode
   - jruby-18mode
+=======
+  - 2.1
+  - 2.0.0
+  - rbx-2
+sudo: false
+>>>>>>> 2-1-main

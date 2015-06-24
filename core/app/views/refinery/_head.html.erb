@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <head>
   <meta charset='<%= Rails.application.config.encoding %>' />
   <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /><![endif]-->
@@ -11,8 +12,19 @@
   <%= stylesheet_link_tag "application", "formatting", "theme", "datepicker" %>
   <%= stylesheet_link_tag "home" if home_page? %>
   <%= yield :stylesheets %>
+=======
+<meta charset='<%= Rails.application.config.encoding %>' />
+<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /><![endif]-->
+<title><%= browser_title(yield(:title)) %></title>
+<%= raw %(<meta name="description" content="#{@meta.meta_description}" />) if @meta.meta_description.present? -%>
+<%= raw %(<link rel="canonical" content="#{@canonical}" />) if @canonical.present? -%>
+<%= csrf_meta_tags if Refinery::Core.authenticity_token_on_frontend -%>
+<%= yield :meta %>
 
-  <%= render '/refinery/google_analytics' %>
+<%= stylesheet_link_tag "application" %>
+<%= yield :stylesheets %>
+>>>>>>> 2-1-main
 
-  <%= javascript_include_tag 'modernizr-min' %>
-</head>
+<%= render '/refinery/google_analytics' %>
+
+<%= javascript_include_tag 'modernizr-min' %>

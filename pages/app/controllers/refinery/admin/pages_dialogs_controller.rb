@@ -1,31 +1,39 @@
+<<<<<<< HEAD
 require 'net/http'
 
+=======
+>>>>>>> 2-1-main
 module Refinery
   module Admin
     class PagesDialogsController < ::Refinery::Admin::DialogsController
 
+<<<<<<< HEAD
       newrelic_ignore
 
+=======
+>>>>>>> 2-1-main
       helper :'refinery/admin/pages'
 
       def link_to
         # Get the switch_local variable to determine the locale we're currently editing
         # Set up Globalize with our current locale
-        if ::Refinery.i18n_enabled?
-          Thread.current[:globalize_locale] = params[:switch_locale] || Refinery::I18n.default_locale
+        Globalize.locale = if params[:switch_locale].present? && Refinery::I18n.built_in_locales.keys.map(&:to_s).include?(params[:switch_locale])
+          Globalize.locale = params[:switch_locale]
+        else
+          Refinery::I18n.default_locale
         end
 
         @pages = ::Refinery::Page.roots.paginate(:page => params[:page], :per_page => ::Refinery::Page.per_page(true))
 
-        @pages = @pages.with_globalize if ::Refinery.i18n_enabled?
+        @pages = @pages.with_globalize
 
         if ::Refinery::Plugins.registered.names.include?('refinery_files')
-            @resources = Resource.paginate(:page => params[:resource_page], :per_page => Resource.per_page(true)).
-                                  order('created_at DESC')
+          @resources = Resource.paginate(:page => params[:resource_page], :per_page => Resource.per_page(true)).
+                                order('created_at DESC')
 
           # resource link
           if params[:current_link].present?
-           is_resource_link = params[:current_link].include?("/system/resources")
+            is_resource_link = params[:current_link].include?("/system/resources")
           end
         end
 
@@ -54,6 +62,7 @@ module Refinery
         end
       end
 
+<<<<<<< HEAD
       def test_url
         result = 'failure'
         begin
@@ -91,6 +100,8 @@ module Refinery
         end
       end
 
+=======
+>>>>>>> 2-1-main
     end
   end
 end

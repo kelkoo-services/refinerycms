@@ -1,9 +1,15 @@
+<<<<<<< HEAD
 require 'rails/all'
 require 'rbconfig'
+=======
+require File.expand_path('../../refinery', __FILE__)
+>>>>>>> 2-1-main
 require 'truncate_html'
 require 'will_paginate'
+require 'refinery/i18n'
 
 module Refinery
+<<<<<<< HEAD
   WINDOWS = !!(RbConfig::CONFIG['host_os'] =~ %r!(msdos|mswin|djgpp|mingw)!) unless defined? WINDOWS
 
   require 'refinery/errors'
@@ -185,6 +191,8 @@ module Refinery
     end
   end
 
+=======
+>>>>>>> 2-1-main
   module Core
     require 'refinery/core/engine'
     require 'refinery/core/configuration'
@@ -196,3 +204,8 @@ module Refinery
     end
   end
 end
+
+# this require has to be down here
+# see https://github.com/refinery/refinerycms/issues/2273
+require 'decorators'
+require 'jquery-rails'

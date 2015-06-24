@@ -1,7 +1,7 @@
 module Refinery
   module Pages
     class Engine < ::Rails::Engine
-      include Refinery::Engine
+      extend Refinery::Engine
 
       isolate_namespace Refinery
       engine_name :refinery_pages
@@ -14,26 +14,33 @@ module Refinery
       end
 
       after_inclusion do
-        ::ApplicationController.send :include, Refinery::Pages::InstanceMethods
-        Refinery::AdminController.send :include, Refinery::Pages::Admin::InstanceMethods
+        Refinery.include_once(::ApplicationController, Refinery::Pages::InstanceMethods)
+        Refinery.include_once(Refinery::AdminController, Refinery::Pages::Admin::InstanceMethods)
       end
 
-      initializer "register refinery_pages plugin" do
+      initializer "refinery.pages register plugin" do
         Refinery::Plugin.register do |plugin|
           plugin.pathname = root
           plugin.name = 'refinery_pages'
-          plugin.version = %q{2.0.0}
-          plugin.menu_match = %r{refinery/page(_part|s_dialog)?s$}
+          plugin.menu_match = %r{refinery/page(_part|s_dialog)?s(/preview)?$}
           plugin.activity = {
             :class_name => :'refinery/page',
+<<<<<<< HEAD
             :nested_with => [:uncached_nested_url],
+=======
+            :nested_with => [:nested_url],
+>>>>>>> 2-1-main
             :use_record_in_nesting => false
           }
           plugin.url = proc { Refinery::Core::Engine.routes.url_helpers.admin_pages_path }
         end
       end
 
+<<<<<<< HEAD
       initializer "append marketable routes", :after => :set_routes_reloader_hook do
+=======
+      initializer "refinery.pages append marketable routes", :after => :set_routes_reloader_hook do
+>>>>>>> 2-1-main
         append_marketable_routes if Refinery::Pages.marketable_urls
       end
 
@@ -57,9 +64,13 @@ module Refinery
       # Add any parts of routes as reserved words.
       def add_route_parts_as_reserved_words
         ActiveSupport.on_load(:active_record) do
+<<<<<<< HEAD
           # do not add routes with :allow_slug => true
           included_routes = Rails.application.routes.named_routes.routes.reject{ |name, route| route.defaults[:allow_slug] }
           route_paths = included_routes.map { |name, route| route.path.spec }
+=======
+          route_paths = Rails.application.routes.named_routes.routes.map { |name, route| route.path.spec }
+>>>>>>> 2-1-main
           route_paths.reject! {|path| path.to_s =~ %r{^/(rails|refinery)}}
           Refinery::Page.friendly_id_config.reserved_words |= route_paths.map { |path|
             path.to_s.gsub(%r{^/}, '').to_s.split('(').first.to_s.split(':').first.to_s.split('/')

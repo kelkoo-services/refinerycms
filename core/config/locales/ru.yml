@@ -47,13 +47,17 @@ ru:
         current: Текущий файл
       search:
         button_text: Поиск
-        results_for: "Результаты поиска для «%{query}»"
+        results_for_html: "Результаты поиска для &#8216;<em>%{query}</em>&#8217;"
         no_results: Ничего не найдено
       delete:
         message: Вы уверены, что хотите удалить '%{title}'?
       error_messages:
         problems_in_following_fields: Обнаружены проблемы со следующими полями
       help: Помощь
+      form_advanced_options_menu:
+        advanced_options: Дополнительные настройки
+        toggle_advanced_options: Настройка мета-тегов, меню и др.
+        save_as_draft: Сохранить как черновик
     message:
       close: Закрыть
       close_this_message: Закрыть это сообщение

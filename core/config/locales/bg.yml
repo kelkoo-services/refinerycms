@@ -50,13 +50,17 @@ bg:
         current: Текущ файл
       search:
         button_text: Търсене
-        results_for: 'Резултати от търсене на "%{query}"'
+        results_for_html: "Резултати от търсене на &#8216;<em>%{query}</em>&#8217;"
         no_results: 'За съжаление нищо не бе намерено'
       delete:
         message: 'Сигурни ли сте, че искате да изтриете "%{title}"?'
       error_messages:
         problems_in_following_fields: Има проблем със следните полета
       help: помощ
+      form_advanced_options_menu:
+        advanced_options: Разширени настройки
+        toggle_advanced_options: Достъп до настройките за етикета "meta" и менюто
+        save_as_draft: Запис като чернова
     message:
       close: Затваряне
       close_this_message: Затваряне на това съобщение

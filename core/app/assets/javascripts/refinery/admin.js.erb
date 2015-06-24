@@ -35,7 +35,7 @@ $.fn.paginateTo = function(stateUrl) {
         $(this).attr('href', $(this).attr('href').replace(/\?\_\=[^&]+&/, '?'));
       })
     },
-    failure: function(data) {
+    error: function(data) {
       window.location = popstate_location;
     }
   });
@@ -77,7 +77,6 @@ init_modal_dialogs = function(){
                    + 'app_dialog=true&dialog=true';
 
       iframe = $("<iframe id='dialog_iframe' frameborder='0' marginheight='0' marginwidth='0' border='0'></iframe>");
-      if(!$.browser.msie) { iframe.corner('8px'); }
       iframe.dialog({
         title: $anchor.data('dialog-title')
         , modal: true
@@ -98,7 +97,7 @@ init_modal_dialogs = function(){
 refinery_dialog_success = function(e) {
   close_dialog();
   $.ajax({
-    url: window.location.pathname,
+    url: window.location.pathname + window.location.search,
     cache: false,
     success: function(data) {
       $('.pagination_container').html(data);
@@ -130,19 +129,11 @@ trigger_reordering = function(e, enable) {
 };
 
 trigger_reordering_content_section = function(e, enable) {
-  $menu = $("#page-tabs");
+  $menu = $("#page-tabs").sortable();
   e.preventDefault();
   $('#reorder_page_part, #reorder_page_part_done').toggle();
-  $('#site_bar, #menu, .field:not(:has(#page-tabs)), .page_part, #more_options_field, .form-actions')
+  $('#site_bar, #menu, .field:not(:has(#page-tabs)), .page_part:visible, #more_options_field, .form-actions')
     .fadeTo(500, enable ? 0.35 : 1);
-
-  if(enable) {
-    $menu.addClass('reordering').find('.tab a').click(function(ev){
-      ev.preventDefault();
-    });
-  } else {
-    $menu.removeClass('reordering').find('.tab a').unbind('click');
-  }
 
   $menu.sortable(enable ? 'enable' : 'disable').sortable({
     items: 'li',
@@ -174,6 +165,7 @@ submit_and_continue = function(e, redirect_to) {
     , function(data) {
       if (($flash_container = $('#flash_container')).length > 0) {
         $flash_container.html(data);
+<<<<<<< HEAD
         $('#flash').css({'width': 'auto', 'visibility': null}).fadeIn(550);
 
         $('.errorExplanation').not($('#flash_container .errorExplanation')).remove();
@@ -192,6 +184,27 @@ submit_and_continue = function(e, redirect_to) {
 
         init_flash_messages();
 
+=======
+
+        $('#flash').css({'width': 'auto', 'visibility': null}).fadeIn(550);
+
+        $('.errorExplanation').not($('#flash_container .errorExplanation')).remove();
+
+        if ((error_fields = $('#fieldsWithErrors').val()) != null) {
+          $.each(error_fields.split(','), function() {
+            $("#" + this).wrap("<div class='fieldWithErrors' />");
+          });
+        } else if (redirect_to) {
+          window.location = redirect_to;
+        }
+
+        $('.fieldWithErrors:first :input:first').focus();
+
+        $('#continue_editing').val(false);
+
+        init_flash_messages();
+
+>>>>>>> 2-1-main
         //updates the form action with new URL
         $('form').attr('action', $('#new_action').attr('value'));
       }
@@ -211,9 +224,6 @@ init_tooltips = function(args){
           $('.tooltip').remove();
           tooltip = $("<div class='tooltip'><div><span></span></div></div>").appendTo('#tooltip_container');
           tooltip.find("span").html($(this).attr('tooltip'));
-          if(!$.browser.msie) {
-            tooltip.corner('6px').find('span').corner('6px');
-          }
 
           tooltip_nib_extension = $.browser.msie ? '.gif' : '.png';
           nib = $("<img src='<%= asset_path 'refinery/tooltip-nib' %>" + tooltip_nib_extension + "' class='tooltip-nib'/>").appendTo('#tooltip_container');
@@ -296,30 +306,38 @@ init_tooltips = function(args){
 };
 
 var link_tester = {
-  initialised: false
-  , init: function(test_url, test_email) {
-
-    if (!this.initialised) {
-      this.test_url = test_url;
-      this.test_email = test_email;
-      this.initialised = true;
-    }
-  },
+  email_re : new RegExp(/^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i),
+  url_re : new RegExp(/^(https?|ftp):\/\/(-\.)?([^\s/?\.#-]+\.?)+(\/[^\s]*)?$/i),
+  page_re : new RegExp('^(https?:\/\/' + document.location.host + '|\/[a-z0-9]+)'),
 
   email: function(value, callback) {
     if (value != "") {
-      $.getJSON(link_tester.test_email, {email: value}, function(data){
-        callback(data.result == 'success');
-      });
+      callback(link_tester.email_re.test(value));
     }
   },
 
   url: function(value, callback) {
     if (value != "") {
-      $.getJSON(link_tester.test_url, {'url': value}, function(data){
-        callback(data.result == 'success');
-      });
+      if (link_tester.page_re.test(value)) {
+        link_tester.page(value, callback);
+      } else {
+        callback(link_tester.url_re.test(value));
+      }
     }
+  },
+
+  page: function(value, callback) {
+    var valid = false;
+    $.ajax({
+      url: value,
+      timeout: 5000,
+      success: function() {
+        valid = true;
+      },
+      complete: function () {
+        callback(valid);
+      }
+    });
   },
 
   validate_textbox: function(validation_method, textbox_id, callback) {
@@ -329,14 +347,13 @@ var link_tester = {
 
     loader_img.insertAfter($(textbox_id));
     result_span.insertAfter(loader_img);
-
     $(textbox_id).bind('paste blur',function(){
       $(textbox_id).stop(true); // Clear the current queue; if we weren't checking yet, cancel it.
       $(textbox_id + '_test_loader').hide();
       $(textbox_id + '_test_result').hide();
       $(textbox_id + '_test_result').removeClass('success_icon').removeClass('failure_icon');
 
-      if (this.value != "" && this.value[0] != "/") {
+      if (this.value != "") {
         // Wait 300ms before checking.
         $(textbox_id).delay(300).queue(function () {
           $(textbox_id + '_test_loader').show();
@@ -523,9 +540,7 @@ var page_options = {
 
     if (!this.initialised) {
       // set the page tabs up, but ensure that all tabs are shown so that when wymeditor loads it has a proper height.
-      page_options.tabs = $('#page-tabs');
-      page_options.tabs.tabs({tabTemplate: '<li><a href="#{href}">#{label}</a></li>'});
-      page_options.tabs.find(' > ul li a').corner('top 5px');
+      page_options.tabs = $('#page-tabs').tabs();
 
       part_shown = $('#page-tabs .page_part.field').not('.ui-tabs-hide');
       $('#page-tabs .page_part.field').removeClass('ui-tabs-hide');
@@ -538,7 +553,6 @@ var page_options = {
       $(document).ready($.proxy(function(){
         // hide the tabs that are supposed to be hidden.
         $('#page-tabs .page_part.field').not(this).addClass('ui-tabs-hide');
-        $('#page-tabs > ul li a').corner('top 5px');
       }, part_shown));
 
       if(this.enable_parts){
@@ -582,7 +596,7 @@ var page_options = {
       if(part_title.length > 0){
         var tab_title = part_title.toLowerCase().replace(" ", "_");
 
-        if ($('#part_' + tab_title).size() === 0) {
+        if ($('#page_part_' + tab_title).size() === 0) {
           $.get(page_options.new_part_url, {
               title: part_title
               , part_index: $('#new_page_part_index').val()
@@ -591,23 +605,20 @@ var page_options = {
               $('#submit_continue_button').remove();
               // Add a new tab for the new content section.
               $('#page_part_editors').append(data);
-              page_options.tabs.tabs('add', '#page_part_new_' + $('#new_page_part_index').val(), part_title);
-              page_options.tabs.tabs('select', $('#new_page_part_index').val());
 
-              // hook into wymeditor to instruct it to select this new tab again once it has loaded.
-              WYMeditor.onload_functions.push(function() {
-                page_options.tabs.tabs('select', $('#new_page_part_index').val());
-              });
+              page_options.tabs.find("ul").append("<li><a href='#page_part_new_"+$('#new_page_part_index').val()+"'>"+part_title+"</a></li>");
+              page_options.tabs.tabs("refresh");
 
-              // turn the new textarea into a wymeditor.
-              $('#page_part_new_' + $('#new_page_part_index').val()).appendTo('#page_part_editors')
+              // this is here because of https://github.com/refinery/refinerycms/issues/2060
+              $("#page-tabs #page_parts li").last().attr("data-index", $('#new_page_part_index').val());
+
+              page_options.tabs.tabs("option", "active", -1);
+
               WYMeditor.init();
 
               // Wipe the title and increment the index counter by one.
               $('#new_page_part_index').val(parseInt($('#new_page_part_index').val(), 10) + 1);
               $('#new_page_part_title').val('');
-
-              page_options.tabs.find('> ul li a').corner('top 5px');
 
               $('#new_page_part_dialog').dialog('close');
             }, 'html'
@@ -629,15 +640,25 @@ var page_options = {
     $('#delete_page_part').click(function(e){
       e.preventDefault();
 
-      if(confirm("This will remove the content section '" + $('#page_parts .ui-tabs-selected a').text() + "' immediately even if you don't save this page, are you sure?")) {
-        var tabId = page_options.tabs.tabs('option', 'selected');
-        $.ajax({
-          url: page_options.del_part_url + '/' + $('#page_parts_attributes_' + tabId + '_id').val(),
-          type: 'DELETE'
-        });
-        page_options.tabs.tabs('remove', tabId);
-        $('#page_parts_attributes_' + tabId + '_id').remove();
+      var tabName = page_options.tabs.find(".ui-tabs-active a").text();
+
+      if(confirm("This will remove the content section '" + tabName + "' immediately even if you don't save this page, are you sure?")) {
+        var tabId = page_options.tabs.find('.ui-tabs-active a').attr('id').match(/\d+/)[0] - 1;
+
+        if($('#page_parts_attributes_' + tabId + '_id').length > 0) {
+          $.ajax({
+            url: page_options.del_part_url + '/' + $('#page_parts_attributes_' + tabId + '_id').val(),
+            type: 'DELETE'
+          });
+        }
+
+        page_options.tabs.find(".ui-tabs-active").remove();
+        page_options.tabs.find("#page_part_" + tabName.toLowerCase()).remove();
+        page_options.tabs.find("#page_part_new_" + tabId).remove();
+        $("[id^=page_parts_attributes_" + tabId + "_]").remove();
         $('#submit_continue_button').remove();
+
+        page_options.tabs.tabs('refresh');
       }
 
     });
@@ -652,45 +673,58 @@ var page_options = {
 
 };
 
-var image_dialog = {
-  initialised: false
-  , callback: null
+// TODO:  Need to rewrite WYM to accept multiple images. As it stands, only
+//        the callback is useful when inserting multiple -- helpful for
+//        the page-images and portfolio engines.
 
-  , init: function(callback){
+// ImageDialog
+//
+//   The dialog that opens when choosing to 'Add image' in WYM.
+//
+//   Options:
+//     callback (null):
+//       a function to execute upon chosing 'submit'. Passed either an
+//       an array or a single image, depending on whether `multiple` is
+//       true.
+//     multiple (false):
+//       if true, enables selection of multiple images. Does not allow
+//       insertion into WYM without manual callback manipulation.
+function ImageDialog(options) {
+  self = this;
+  this.defaults = {callback: null, multiple: false};
+  this.settings = $.extend({}, this.defaults, options);
 
-    if (!this.initialised) {
-      this.callback = callback;
-      this.init_tabs();
-      this.init_select();
-      this.init_actions();
-      this.initialised = true;
-    }
-    return this;
-  }
+  this.create = function() {
 
-  , init_tabs: function(){
+    this.callback = this.settings.callback;
+    this.init_tabs();
+    this.init_select();
+    this.init_actions();
+  };
+
+  this.init_tabs = function() {
     var radios = $('#dialog_menu_left input:radio');
     var selected = radios.parent().filter(".selected_radio").find('input:radio').first() || radios.first();
-
-    radios.click(function(){
-      link_dialog.switch_area($(this));
+    radios.click(function() {
+      self.switch_area($(this));
     });
 
     selected.attr('checked', 'true');
-    link_dialog.switch_area(selected);
-  }
+    self.switch_area(selected);
+  };
 
-  , switch_area: function(radio){
+  this.switch_area = function(radio) {
     $('#dialog_menu_left .selected_radio').removeClass('selected_radio');
-    $(radio).parent().addClass('selected_radio');
+    radio.parent().addClass('selected_radio');
     $('#dialog_main .dialog_area').hide();
-    $('#' + radio.value + '_area').show();
-  }
+    $('#' + radio.val() + '_area').show();
+  };
 
-  , init_select: function(){
-    $('#existing_image_area_content ul li img').click(function(){
-        image_dialog.set_image(this);
+  this.init_select = function() {
+    $('#existing_image_area_content ul li img').click(function() {
+      self.toggle_image($(this));
     });
+<<<<<<< HEAD
     //AGM Manually set image width, uncheck all others formats
     $('#manually_resize_image').change(function(){
         if ($('#manually_resize_image').is(':checked')){
@@ -699,17 +733,21 @@ var image_dialog = {
         };
     });
     //Select any currently selected, just uploaded...
+=======
+
+    // Select any currently selected, just uploaded...
+>>>>>>> 2-1-main
     if ((selected_img = $('#existing_image_area_content ul li.selected img')).length > 0) {
-      image_dialog.set_image(selected_img.first());
+      self.toggle_image(selected_img.first());
     }
-  }
+  };
 
-  , set_image: function(img){
-    if ($(img).length > 0) {
-      $('#existing_image_area_content ul li.selected').removeClass('selected');
+  this.toggle_image = function(img) {
+    if (img.length > 0) {
+      if (!self.settings.multiple) $('#existing_image_area_content ul li.selected').removeClass('selected');
 
-      $(img).parent().addClass('selected');
-      var imageId = $(img).attr('data-id');
+      img.parent().toggleClass('selected');
+      var imageId = img.attr('data-id');
       var geometry = $('#existing_image_size_area li.selected a').attr('data-geometry');
       var size = $('#existing_image_size_area li.selected a').attr('data-size');
       var auto = true;
@@ -720,16 +758,21 @@ var image_dialog = {
       };
       var resize = $("#wants_to_resize_image").is(':checked');
 
+<<<<<<< HEAD
       image_url = (resize && auto) ? $(img).attr('data-' + size) : $(img).attr('data-original');
+=======
+      image_url = resize ? img.attr('data-' + size) : img.attr('data-original');
+
+>>>>>>> 2-1-main
       if (parent) {
         if ((wym_src = parent.document.getElementById('wym_src')) != null) {
           wym_src.value = image_url;
         }
         if ((wym_title = parent.document.getElementById('wym_title')) != null) {
-          wym_title.value = $(img).attr('title');
+          wym_title.value = img.attr('title');
         }
         if ((wym_alt = parent.document.getElementById('wym_alt')) != null) {
-          wym_alt.value = $(img).attr('alt');
+          wym_alt.value = img.attr('alt');
         }
         if ((wym_size = parent.document.getElementById('wym_size')) != null
             && typeof(geometry) != 'undefined') {
@@ -740,35 +783,41 @@ var image_dialog = {
         }
       }
     }
-  }
+  };
 
-  , submit_image_choice: function(e) {
+  this.submit_image_choice = function(e) {
     e.preventDefault();
-    if((img_selected = $('#existing_image_area_content ul li.selected img').get(0)) && $.isFunction(this.callback))
+    selected_images = $('#existing_image_area_content ul li.selected img');
+    selected_images = self.settings.multiple ? selected_images.get() : selected_images.get(0);
+
+    if(selected_images && $.isFunction(self.callback))
     {
-      this.callback(img_selected);
+      self.callback(selected_images);
     }
     close_dialog(e);
-  }
+  };
 
-  , init_actions: function(){
-    var _this = this;
+  this.init_actions = function() {
     // get submit buttons not inside a wymeditor iframe
     $('#existing_image_area .form-actions-dialog #submit_button')
       .not('.wym_iframe_body #existing_image_area .form-actions-dialog #submit_button')
-      .click($.proxy(_this.submit_image_choice, _this));
+      .click($.proxy(self.submit_image_choice, self));
 
     // get cancel buttons not inside a wymeditor iframe
     $('.form-actions-dialog #cancel_button')
       .not('.wym_iframe_body .form-actions-dialog #cancel_button')
-      .click($.proxy(close_dialog, _this));
+      .click($.proxy(close_dialog, self));
 
     $('#existing_image_size_area ul li a').click(function(e) {
       $('#existing_image_size_area ul li').removeClass('selected');
       $(this).parent().addClass('selected');
       $('#existing_image_size_area #wants_to_resize_image').attr('checked', 'checked');
+<<<<<<< HEAD
       $('#manually_resize_image').prop('checked', false);
       image_dialog.set_image($('#existing_image_area_content ul li.selected img'));
+=======
+      self.toggle_image($('#existing_image_area_content ul li.selected img'));
+>>>>>>> 2-1-main
       e.preventDefault();
     });
 
@@ -777,7 +826,7 @@ var image_dialog = {
         $('#existing_image_size_area ul li:first a').click();
       } else {
         $('#existing_image_size_area ul li').removeClass('selected');
-        image_dialog.set_image($('#existing_image_area_content ul li.selected img'));
+        self.toggle_image($('#existing_image_area_content ul li.selected img'));
       }
     });
     $('#manually_resize_width').change(function(){
@@ -790,130 +839,8 @@ var image_dialog = {
       $(this.document.getElementById('wym_dialog_submit')).click();
     }, parent));
     image_area.find('.form-actions a.close_dialog').click(close_dialog);
-  }
-};
-
-var list_reorder = {
-  initialised: false
-  , init: function() {
-
-    if (!this.initialised) {
-      $('#reorder_action').click(list_reorder.enable_reordering);
-      $('#reorder_action_done').click(list_reorder.disable_reordering);
-      if(list_reorder.tree === false) {
-        list_reorder.sortable_list.find('li').addClass('no-nest');
-      }
-      list_reorder.sortable_list.nestedSortable({
-        listType: 'ul',
-        disableNesting: 'no-nest',
-        forcePlaceholderSize: true,
-        handle: list_reorder.tree ? 'div' : null,
-        items: 'li',
-        opacity: .6,
-        placeholder: 'placeholder',
-        tabSize: 25,
-        tolerance: 'pointer',
-        toleranceElement: list_reorder.tree ? '> div' : null,
-        disabled: true,
-        start: function () {
-        },
-        change: function () {
-          if (list_reorder.tree) {
-            list_reorder.reset_branch_classes(this);
-          }
-        },
-        stop: function () {
-          if (list_reorder.tree) {
-            list_reorder.reset_branch_classes(this);
-            list_reorder.reset_icon_classes(this);
-          } else {
-            list_reorder.reset_on_off_classes(this);
-          }
-        }
-      });
-      if (list_reorder.tree) {
-        list_reorder.reset_branch_classes(list_reorder.sortable_list);
-      } else {
-        list_reorder.reset_on_off_classes(list_reorder.sortable_list);
-      }
-      this.initialised = true;
-    }
-  }
-  , reset_on_off_classes: function(ul) {
-    $("> li", ul).each(function(i, li) {
-      $(li).removeClass('on off on-hover').addClass(i % 2 === 0 ? 'on' : 'off');
-    });
-  }
-
-  , reset_branch_classes: function (ul) {
-    $("li.ui-sortable-helper", this).removeClass("record").removeClass("branch_start").removeClass("branch_end");
-    $("li", ul).removeClass("branch_start").removeClass("branch_end");
-
-    $("> li:first", ul).addClass("branch_start");
-    $("> li:last", ul).addClass("branch_end");
-
-    var nested_ul = $("ul", ul);
-    $("> li:last", nested_ul).addClass("branch_end");
-  }
-
-  , reset_icon_classes: function(ul) {
-    $('li', ul).each(function() {
-      var $li   = $(this);
-      var $icon = $li.find('.icon:first');
-
-      if ($li.find('ul li').size() > 0) {
-        $icon.addClass('toggle expanded');
-      }
-      else if ($icon.hasClass('expanded')){
-        $icon.removeClass('toggle expanded');
-      }
-    });
-  }
-
-  ,enable_reordering: function(e) {
-    if(e) { e.preventDefault(); }
-
-    $('#sortable_list, .sortable_list').addClass("reordering");
-    $('#sortable_list .actions, .sortable_list .actions, #site_bar, header > *:not(script)').fadeTo(500, 0.3);
-    $('#actions *:not("#reorder_action_done, #reorder_action")').not($('#reorder_action_done').parents('li, ul, div')).fadeTo(500, 0.55);
-
-    list_reorder.sortable_list.nestedSortable("enable");
-
-    $('#reorder_action').hide();
-    $('#reorder_action_done').show();
-  }
-
-  , disable_reordering: function(e) {
-    if(e) { e.preventDefault(); }
-
-    if($('#reorder_action_done').hasClass('loading')) { return false; }
-    $('#reorder_action_done').addClass('loading');
-
-    list_reorder.sortable_list.nestedSortable("disable");
-
-    $('#sortable_list, .sortable_list').removeClass("reordering");
-
-    if (list_reorder.update_url !== null) {
-      var serialized = list_reorder.sortable_list.serializelist();
-
-      $.post(list_reorder.update_url, serialized, function(data) {
-        list_reorder.restore_controls(e);
-      });
-    } else {
-      list_reorder.restore_controls(e);
-    }
-  }
-
-  , restore_controls: function(e) {
-    $(list_reorder.sortable_list).removeClass('reordering');
-
-    $('#sortable_list .actions, .sortable_list .actions, #site_bar, header > *:not(script)').fadeTo(250, 1);
-    $('#actions *:not("#reorder_action_done, #reorder_action")').not($('#reorder_action_done').parents('li, ul, div')).fadeTo(250, 1, function() {
-      $('#reorder_action_done').hide().removeClass('loading');
-      $('#reorder_action').show();
-    });
-  }
-};
+  };
+}
 
 var image_picker = {
   initialised: false
@@ -959,10 +886,10 @@ var image_picker = {
   }
 
   , toggle_image: function(e) {
-    $(this.container).find(this.options.image_toggler).html(
-      ($(this.container).find(options.image_toggler).html() == 'Show' ? 'Hide' : 'Show')
+    $(this.container).find(this.picker.options.image_toggler).html(
+      ($(this.container).find(this.picker.options.image_toggler).html() == 'Show' ? 'Hide' : 'Show')
     );
-    $(this.container).find(this.options.image_container).toggle();
+    $(this.container).find(this.picker.options.image_container).toggle();
     e.preventDefault();
   }
 

@@ -10,12 +10,20 @@
       <%= page_title_with_translations page %>
       <%= page_meta_information page %>
     </span>
+<<<<<<< HEAD
     <% if Refinery.i18n_enabled? && Refinery::I18n.frontend_locales.many? %>
+=======
+    <% if Refinery::I18n.frontend_locales.many? %>
+>>>>>>> 2-1-main
       <span class='locales'>
         <% page.translations.sort_by{|t| Refinery::I18n.frontend_locales.index(t.locale)}.each do |translation| %>
           <%= link_to refinery_icon_tag("flags/#{translation.locale}.png", :size => '16x11'),
                       refinery.edit_admin_page_path(page.nested_url, :switch_locale => translation.locale),
+<<<<<<< HEAD
                       :class => 'locale' %>
+=======
+                      :class => 'locale' if translation.title.present? %>
+>>>>>>> 2-1-main
         <% end %>
       </span>
     <% end %>
@@ -30,11 +38,15 @@
                   :title => t('new', :scope => 'refinery.admin.pages') %>
 
       <%= link_to refinery_icon_tag('application_edit.png'),
+<<<<<<< HEAD
                   refinery.edit_admin_page_path(page.uncached_nested_url, :switch_locale => (page.translations.first.locale unless page.translated_to_default_locale?)),
+=======
+                  refinery.edit_admin_page_path(page.nested_url, :switch_locale => (page.translations.first.locale unless page.translated_to_default_locale?)),
+>>>>>>> 2-1-main
                   :title => t('edit', :scope => 'refinery.admin.pages') %>
 
       <%= link_to refinery_icon_tag('delete.png'),
-                  refinery.admin_page_path(page.uncached_nested_url),
+                  refinery.admin_page_path(page.nested_url),
                   :class => "cancel confirm-delete",
                   :title => t('delete', :scope => 'refinery.admin.pages'),
                   :data => {
@@ -46,7 +58,7 @@
                   :method => :delete if page.deletable? %>
     </span>
   </div>
-  <ul class='nested' data-ajax-content="<%= refinery.admin_children_pages_path(page.uncached_nested_url) %>">
+  <ul class='nested' data-ajax-content="<%= refinery.admin_children_pages_path(page.nested_url) %>">
     <%= render(:partial => 'page', :collection => page.children) if Refinery::Pages.auto_expand_admin_tree %>
   </ul>
 </li>

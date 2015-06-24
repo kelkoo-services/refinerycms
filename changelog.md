@@ -1,9 +1,114 @@
+<<<<<<< HEAD
 ## 2.0.10 [15 March 2013]
 
 * Blocked past insecure Rails versions. [Philip Arndt](https://github.com/parndt)
 * Fixed problems with editing pages in different locales. [Philip Arndt](https://github.com/parndt)
 * Locked `truncate_html` to 0.5.x to ensure Ruby 1.8.x compatibility. [Uģis Ozols](https://github.com/ugisozols)
 
+=======
+## 2.1.5 [8 November 2014]
+
+* Fixed preview when using inherited templates. [#2748](https://github.com/refinery/refinerycms/pull/2748). [Alexander Stanko](https://github.com/Rakoth)
+
+* [See full list](https://github.com/refinery/refinerycms/compare/2.1.4...2.1.5)
+
+## 2.1.4 [28 October 2014]
+
+* Changed Dragonfly to load before `:build_middleware_stack` instead of after `:load_config_initializers`.  [#2721](https://github.com/refinery/refinerycms/pull/2721). [Thilo-Alexander Ginkel](https://github.com/ginkel)
+
+* [See full list](https://github.com/refinery/refinerycms/compare/2.1.3...2.1.4)
+
+## 2.1.3 [5 September 2014]
+
+* Fixed an issue where the seeds in a generated form extension weren't idempotent. [Philip Arndt](https://github.com/parndt) [#2674](https://github.com/refinery/refinerycms/pull/2674)
+
+* [See full list](https://github.com/refinery/refinerycms/compare/2.1.2...2.1.3)
+
+## 2.1.2 [14 March 2014]
+
+* Fixed bug where `load_valid_templates` wasn't called for create action and caused an exception when creating a new page and saving it with a blank title. [Uģis Ozols](https://github.com/ugisozols). [#2517](https://github.com/refinery/refinerycms/pull/2517)
+* Fixed bug where adding a link for a translated page via wymeditor it wasn't localised. Also updated the regex for `switch_locale` to match hyphenated language code, e.g. zh-CN or pt-BR. [Daniel Brooker](https://github.com/DanBrooker). [#2533](https://github.com/refinery/refinerycms/pull/2533)
+* [See full list](https://github.com/refinery/refinerycms/compare/2.1.1...2.1.2)
+
+## 2.1.1 [26 November 2013]
+
+* Fixed menu reordering bug when `Refinery::Core.backend_route` was set to something different than `refinery`. [#2368](https://github.com/refinery/refinerycms/pull/2368). [xyz](https://github.com/xyz)
+* Fixed bug in serializelist.js where we were iterating through object fields instead of the array elements. [#2360](https://github.com/refinery/refinerycms/pull/2360). [Uģis Ozols](https://github.com/ugisozols)
+* Bumped `selenium-webdriver` gem dependency version to `~> 2.34.0`.
+* Fixed bug which occurred when trying to save a child page with no default translation. [#2379](https://github.com/refinery/refinerycms/pull/2379). [Jess Brown](https://github.com/jess) & [Uģis Ozols](https://github.com/ugisozols)
+* Upgraded Globalize dependency to `~> 3.0.1`. [Chris Salzberg](https://github.com/shioyama) [#2462](https://github.com/refinery/refinerycms/pull/2462)
+* [See full list](https://github.com/refinery/refinerycms/compare/2.1.0...2.1.1)
+
+## 2.1.0 [5 August 2013]
+
+* Require at least Ruby 1.9.3 and thus drop Ruby 1.8.x support. [#2277](https://github.com/refinery/refinerycms/pull/2277) [Uģis Ozols](https://github.com/ugisozols) & [Philip Arndt](https://github.com/parndt)
+* Removed `:before_javascript_libraries`, `:after_javascript_libraries`, and `:javascript_libraries` content blocks. [#1842](https://github.com/refinery/refinerycms/pull/1842). [Rob Yurkowski](https://github.com/robyurkowski)
+* Refactored WYSIWYG fields into a partial. [#1796](https://github.com/refinery/refinerycms/pull/1796). [Rob Yurkowski](https://github.com/robyurkowski)
+* Shortened all authentication helpers. [#1719](https://github.com/refinery/refinerycms/pull/1719). [Ryan Bigg](https://github.com/radar)
+* Added canonical page id to body to allow CSS selectors to target specific pages instead of including special CSS files. [#1700](https://github.com/refinery/refinerycms/pull/1700) & [#1828](https://github.com/refinery/refinerycms/pull/1828). [Philip Arndt](https://github.com/parndt) & [Graham Wagener](https://github.com/gwagener/)
+* Improved search functionality by adding cancel search link next to search input, made results_for entry nicer by adding some html to it. [#1922](https://github.com/refinery/refinerycms/pull/1922/). [Marek](https://github.com/keram)
+* Added search functionality to users extension. [#1922](https://github.com/refinery/refinerycms/pull/1934/). [Marek](https://github.com/keram)
+* Extracted locale picker code into separate partial. [#1936](https://github.com/refinery/refinerycms/pull/1936). [Marek](https://github.com/keram)
+* Removed upgrade messages for IE. [#1940](https://github.com/refinery/refinerycms/pull/1940). [Philip Arndt](https://github.com/parndt)
+* Added template whitelist for page tabs. [#1943](https://github.com/refinery/refinerycms/pull/1943). [Johan](https://github.com/jokklan)
+* Removed DD_belatedPNG since we dropped IE6 support a while ago. (https://github.com/refinery/refinerycms/commit/45367ebeb2fa026a2932d0514db50c8982d2c309)
+* Dropped coffee-rails dependency. [#1975](https://github.com/refinery/refinerycms/issues/1975). [Uģis Ozols](https://github.com/ugisozols)
+* Added Portuguese translations. [#2007](https://github.com/refinery/refinerycms/pull/2007). [David Silva](https://github.com/davidslvto)
+* Added Hungarian translations. [#2010](https://github.com/refinery/refinerycms/pull/2010). [minktom](https://github.com/minktom)
+* Extracted search header logic into partial. [#1974](https://github.com/refinery/refinerycms/pull/1974). [Uģis Ozols](https://github.com/ugisozols)
+* Images can only be updated when the image being uploaded has the same filename as the original image. [#1866](https://github.com/refinery/refinerycms/pull/1866). [Philip Arndt](https://github.com/parndt) & [Uģis Ozols](https://github.com/ugisozols)
+* Rack::Cache should be a soft dependency per rails/rails#7838. Fixes Dragonfly caching when Rack::Cache is present. [#1736](https://github.com/refinery/refinerycms/issues/1736). [Alexander Wenzowski](https://github.com/wenzowski)
+* Made `refinerycms-i18n` hard dependency for `refinerycms-core`. This allowed to remove all `Refinery.i18n_enabled?` checks. [#2025](https://github.com/refinery/refinerycms/pull/2025). [Uģis Ozols](https://github.com/ugisozols)
+* Fixed issue with `view_template_whitelist` config option when array of symbols was used. [#2030](https://github.com/refinery/refinerycms/pull/2030). [A.S. Lomoff](https://github.com/allomov)
+* Removed `source` from block_tags and made it so `wymeditor_whiltelist_tags` don't get added to block_tags. [#2029](https://github.com/refinery/refinerycms/pull/2029). [Sergio Cambra](https://github.com/scambra)
+* Removed Array inheritance from `Refinery::Plugins` and included Enumerable module instead. [#2035](https://github.com/refinery/refinerycms/pull/2035). [Uģis Ozols](https://github.com/ugisozols)
+* Refactored `Refinery::Page#url` and friends. [#2031](https://github.com/refinery/refinerycms/pull/2031). [Uģis Ozols](https://github.com/ugisozols)
+* Removed `store_current_location!` because it was polluting all controllers with Refinery specific instance variable `@page`. [#2032](https://github.com/refinery/refinerycms/issues/2032). [Philip Arndt](https://github.com/parndt) & [Amrit Ayalur](https://github.com/aayalur)
+* Removed `meta_keywords` since seo_meta removed keyword support in version 1.4.0. [#2052](https://github.com/refinery/refinerycms/pull/2052), [#2053](https://github.com/refinery/refinerycms/pull/2053). [Jean-Philippe Doyle](https://github.com/j15e) & [Uģis Ozols](https://github.com/ugisozols)
+* Changed WYMeditor.REL from `rel` to `data-rel`. [#2019](https://github.com/refinery/refinerycms/pull/2019). [Amrit Ayalur](https://github.com/aayalur)
+* Added config option to hide page title in page body. [#2067](https://github.com/refinery/refinerycms/pull/2067). [Andrew Hooker](https://github.com/GeekOnCoffee)
+* Added `Refinery::Core.backend_route` config which allows to set backend route to something different than `/refinery`. [#2050](https://github.com/refinery/refinerycms/pull/2050). [Josef Šimánek](https://github.com/simi)
+* Fixed issue with page part reordering for new pages. [#2063](https://github.com/refinery/refinerycms/pull/2063). [Uģis Ozols](https://github.com/ugisozols)
+* Fixed bug in regex which was wrapping `config.action_mailer` settings in if clause. [#2055](https://github.com/refinery/refinerycms/pull/2055). [Uģis Ozols](https://github.com/ugisozols) & [Philip Arndt](https://github.com/parndt)
+* Renamed `force_ssl?` to `force_ssl!` and `refinery_user_required?` to `require_refinery_users!` and moved these methods to `Admin::BaseController`. [#2076](https://github.com/refinery/refinerycms/pull/2076). [Philip Arndt](https://github.com/parndt)
+* Fixed issue with page tree not updating after page position update. [#1985](https://github.com/refinery/refinerycms/issues/1985). [Philip Arndt](https://github.com/parndt)
+* Replaced menu partials with `MenuPresenter`. [#2068](https://github.com/refinery/refinerycms/pull/2068), [#2069](https://github.com/refinery/refinerycms/pull/2069). [Philip Arndt](https://github.com/parndt)
+* Set `Refinery::Core.authenticity_token_on_frontend` to `false` by default. [Philip Arndt](https://github.com/parndt)
+* Refactored many internals of pages to centralize page cache expiration. [#2083](https://github.com/refinery/refinerycms/pull/2083). [Philip Arndt](https://github.com/parndt)
+* Fixed page saving bug when default locale was set to something different than `en` or when it was changed after creating some pages. [#2088](https://github.com/refinery/refinerycms/pull/2088). [Philip Arndt](https://github.com/parndt)
+* Moved page preview functionality to its own controller and made it so that you need to be logged in to use it. [#2089](https://github.com/refinery/refinerycms/pull/2089). [Philip Arndt](https://github.com/parndt)
+* Fixed issue which allowed identical slugs to exist after page reordering. [#2092](https://github.com/refinery/refinerycms/pull/2092). [Philip Arndt](https://github.com/parndt)
+* Gave crudify's actions the ability to redirect to a particular page of results when `params[:page]` is supplied to the action. [#1861](https://github.com/refinery/refinerycms/issues/1861). [Philip Arndt](https://github.com/parndt)
+* ActsAsIndexed is no longer a required dependency. Integration is achieved by [refinerycms-acts-as-indexed](https://github.com/refinery/refinerycms-acts-as-indexed) instead. [#2162](https://github.com/refinery/refinerycms/issues/2162). [Philip Arndt](https://github.com/parndt)
+* Added Turkish translation [88f37f2a70c](https://github.com/refinery/refinerycms/commit/88f37f2a70c7504a193987ddd309ae15720f4456) and [c42a909eafa](https://github.com/refinery/refinerycms/commit/c42a909eafac721da5e07b3c796e7a07229231d9). [Aslan Gultekin](https://github.com/whowantstolivefo)
+* Allow user-defined geometries in `image#thumbnail_dimensions`. [#2214](https://github.com/refinery/refinerycms/pull/2214). [Javier Saldana](https://github.com/jassa)
+* Added Ukrainian translation. [#2259](https://github.com/refinery/refinerycms/pull/2259). [Tima Maslyuchenko](https://github.com/timsly)
+* Fixed custom page view template preview. [#2219](https://github.com/refinery/refinerycms/pull/2219). [Jean-Philippe Doyle](https://github.com/j15e)
+* Fixed duplicate page part title validation. [#2282](https://github.com/refinery/refinerycms/pull/2282). [David Jones](https://github.com/djones)
+* Fixed nil page bug when `marketable_urls` where set to false and only `path` was passed to `find_by_path_or_id`. [#2278](https://github.com/refinery/refinerycms/pull/2278). [René Cienfuegos](https://github.com/renechz) & [Uģis Ozols](https://github.com/ugisozols)
+* Fixed bug where user plugin order was reset each time user was updated. [#2281](https://github.com/refinery/refinerycms/pull/2281). [Uģis Ozols](https://github.com/ugisozols)
+* Replaced Image#thumbnail geometry parameter with an options hash to support a strip option for reducing thumbnail file size. [#2261](https://github.com/refinery/refinerycms/pull/2261). [Graham Wagener](https://github.com/gwagener/)
+* Added ability to turn off page slug scoping. [#2286](https://github.com/refinery/refinerycms/pull/2286). [Matt Olson](https://github.com/mattolson)
+* Made Crudify's `xhr_paging` option working again. [#2296](https://github.com/refinery/refinerycms/pull/2296). [Chris Irish](https://github.com/supairish)
+* Added draft page support when displaying the home page. [#2298](https://github.com/refinery/refinerycms/pull/2298). [Philip Arndt](https://github.com/parndt)
+* Removed `Refinery::WINDOWS` constant. [Philip Arndt](https://github.com/parndt)
+* Removed `jquery.corner` library and invocations. [#2328](https://github.com/refinery/refinerycms/pull/2328). [Philip Arndt](https://github.com/parndt)
+* Removed `Refinery::Pages.view_template_whitelist` and `Refinery::Pages.use_view_templates` configuration options and enabled setting per page view template to be active by default. [#2331](https://github.com/refinery/refinerycms/pull/2331). [Uģis Ozols](https://github.com/ugisozols)
+* Fixed markup corruption in WYMeditor when using `span` with `style` attribute. [#2350](https://github.com/refinery/refinerycms/pull/2350). [wuboy](https://github.com/wuboy0307)
+* Require jquery-rails ~> 2.3.0. [Francois Harbec](https://github.com/rounders) and [Sergio Cambra](https://github.com/scambra)
+* Unlocked `truncate_html` from 0.5.x as we no longer support Ruby 1.8.x. [Uģis Ozols](https://github.com/ugisozols)
+* [See full list](https://github.com/refinery/refinerycms/compare/2-0-stable...2-1-stable)
+
+## 2.0.11 [unreleased]
+
+* Fixed issue where a superfluous `</div>` would be inserted when using `rails g refinery:engine` for WYSIWYG fields. [#2236](https://github.com/refinery/refinerycms/issues/2236) [Philip Arndt](https://github.com/parndt) and [Rob Yurkowski](https://github.com/robyurkowski)
+* [See full list](https://github.com/refinery/refinerycms/compare/2.0.10...2-0-stable)
+
+## 2.0.10 [15 March 2013]
+* Blocked past insecure Rails versions. [Philip Arndt](https://github.com/parndt)
+* Fixed problems with editing pages in different locales. [Philip Arndt](https://github.com/parndt)
+* Locked `truncate_html` to 0.5.x to ensure Ruby 1.8.x compatibility. [Uģis Ozols](https://github.com/ugisozols)
+>>>>>>> 2-1-main
 * [See full list](https://github.com/refinery/refinerycms/compare/2.0.9...2.0.10)
 
 ## 2.0.9 [21 November 2012]
@@ -26,7 +131,10 @@
 
 ## 2.0.7 [16 August 2012]
 * Fixed a bug with nested reordering that would shuffle any set with 11 or more entities. [#1882](https://github.com/refinery/refinerycms/pull/1882). [Rob Yurkowski](https://github.com/robyurkowski)
+<<<<<<< HEAD
 * [See full list](https://github.com/refinery/refinerycms/compare/2.0.6...2.0.7)
+=======
+>>>>>>> 2-1-main
 
 ## 2.0.6 [6 August 2012]
 * Added Refinery::Page#canonical_slug to allow us to retrieve a consistent slug across multiple translations of a page. Useful for CSS selectors. [#1457](https://github.com/refinery/refinerycms/pull/1457). [Philip Arndt](https://github.com/parndt)
@@ -36,7 +144,10 @@
 * Allowed to override presenters using `rake refinery:override`. [#1790](https://github.com/refinery/refinerycms/pull/1790). [Kevin Bullock](https://github.com/krbullock).
 * Fixed issue with saving settings in generated form extension by completely rewriting settings controller. [#1817](https://github.com/refinery/refinerycms/issues/1817). [Uģis Ozols](https://github.com/ugisozols)
 * Removed Refinery::Page#title_with_meta in favour of view helpers. [#1847](https://github.com/refinery/refinerycms/pull/1847). [Philip Arndt](https://github.com/parndt)
+<<<<<<< HEAD
 * [See full list](https://github.com/refinery/refinerycms/compare/2.0.5...2.0.6)
+=======
+>>>>>>> 2-1-main
 
 ## 2.0.5 [11 June 2012]
 * Now extension/form generators will add all attributes to attr_accessible. [#1613](https://github.com/refinery/refinerycms/pull/1613). [Uģis Ozols](https://github.com/ugisozols)
@@ -54,7 +165,10 @@
 * Fixed and added tests for post-authentication redirect bug where a user would always be redirected to the admin root after successful auth. [#1561](https://github.com/refinery/refinerycms/issues/1561). [Alexander Wenzowski](https://github.com/wenzowski)
 * Added session key check for unscoped `return_to` variable so that the key set by `Refinery::Admin::BaseController#store_location?` is respected after successful auth. [#1728](https://github.com/refinery/refinerycms/issues/1728). [Alexander Wenzowski](https://github.com/wenzowski)
 * Fixed bug where flag icons in page listing couldn't be clicked due to expand/collapse event preventing it. [#1741](https://github.com/refinery/refinerycms/pull/1741). [Uģis Ozols](https://github.com/ugisozols)
+<<<<<<< HEAD
 * [See full list](https://github.com/refinery/refinerycms/compare/2.0.4...2.0.5)
+=======
+>>>>>>> 2-1-main
 
 ## 2.0.4 [14 May 2012]
 * IMPORTANT: Fixed a security issue whereby the user could bypass some access restrictions in the backend. [#1636](https://github.com/refinery/refinerycms/pull/1636). [Rob Yurkowski](https://github.com/robyurkowski) and [Uģis Ozols](https://github.com/ugisozols)
@@ -77,7 +191,10 @@
 * Fixed `content_fu`. [#1628](https://github.com/refinery/refinerycms/issues/1628) [Philip Arndt](https://github.com/parndt)
 * Added Russian translations for the preview button. [Vasiliy Ermolovich](https://github.com/nashby)
 * Manually loaded translations associations to avoid N+1 queries in the pages backend. [#1633](https://github.com/refinery/refinerycms/pull/1633). [thedarkone](https://github.com/thedarkone)
+<<<<<<< HEAD
 * [See full list](https://github.com/refinery/refinerycms/compare/2.0.3...2.0.4)
+=======
+>>>>>>> 2-1-main
 
 ## 2.0.3 [2 April 2012]
 * Fixed missing authentication initializer. [Uģis Ozols](https://github.com/ugisozols)
@@ -96,8 +213,11 @@
 * Fixed missing page part CSS classes (i.e. `no_side_body`) [Rob Yurkowski](https://github.com/robyurkowski)
 * Deprecated `body_content_left` and `body_content_right` [Rob Yurkowski](https://github.com/robyurkowski)
 * Reorganizes documentation [Rob Yurkowski](https://github.com/robyurkowski)
+<<<<<<< HEAD
 * Fixed issue where 'Switch to your website' was not working inside the pages form. [Philip Arndt](https://github.com/parndt)
 * [See full list](https://github.com/refinery/refinerycms/compare/2.0.2...2.0.3)
+=======
+>>>>>>> 2-1-main
 
 ## 2.0.2 [15 March 2012]
 

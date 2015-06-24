@@ -1,16 +1,6 @@
-<div id='more_options_field'>
-  <p>
-    <%= link_to t('.advanced_options'), "#",
-                :id => 'toggle_advanced_options',
-                :title => t('.toggle_advanced_options') %>
-  </p>
-  <span id='draft_field'>
-    <%= f.check_box :draft %>
-    <%= f.label :draft, t('.save_as_draft'),
-                :class => "stripped" %>
-  </span>
-</div>
-<div id='more_options' style="display:none;">
+<%= render '/refinery/admin/form_advanced_options_menu', :f => f %>
+
+<div id="more_options" style="display:none;">
   <div class="hemisquare">
     <h2><%= t('.page_options') %></h2>
     <div class='field'>
@@ -30,7 +20,6 @@
                    template_options(:layout_template, @page) %>
     </div>
     <% end %>
-    <% if Refinery::Pages.use_view_templates %>
     <div class='field'>
       <span class='label_with_help'>
         <%= f.label :view_template, t('.view_template') %>
@@ -39,7 +28,6 @@
       <%= f.select :view_template, @valid_view_templates.map { |t| [t.titleize, t] },
                    template_options(:view_template, @page) %>
     </div>
-    <% end %>
 
     <div class='field'>
       <span class='label_with_help'>
@@ -75,9 +63,6 @@
       <% content_for :javascripts do %>
       <script>
         $(document).ready(function(){
-          link_tester.init('<%= refinery.test_url_admin_pages_dialogs_path %>',
-                           '<%= refinery.test_email_admin_pages_dialogs_path %>');
-
           link_tester.validate_url_textbox("#page_link_url")
         });
       </script>

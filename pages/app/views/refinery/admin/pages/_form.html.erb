@@ -1,8 +1,13 @@
+<<<<<<< HEAD
 <%= form_for [refinery, :admin, @page], :url => (refinery.admin_page_path(@page.nested_url) if @page.persisted?) do |f| %>
+=======
+<%= form_for [refinery, :admin, @page],
+             :url => (refinery.admin_page_path(@page.nested_url) if @page.persisted?) do |f| %>
+>>>>>>> 2-1-main
 
   <%= render '/refinery/admin/error_messages', :object => @page, :include_object_name => true %>
 
-  <%= render 'locale_picker', :current_locale => Globalize.locale if Refinery.i18n_enabled? %>
+  <%= render '/refinery/admin/locale_picker', :current_locale => Globalize.locale %>
 
   <div class="field">
     <%= f.label :title %>
@@ -49,7 +54,11 @@
         var prev_url = form.attr('action');
         var prev_target = form.attr('target');
         form.attr({
+<<<<<<< HEAD
           'action': refinery_page_preview_url
+=======
+          'action': '<%= @page.persisted? ? refinery.pages_admin_preview_page_path(@page.nested_url) : refinery.pages_admin_preview_pages_path %>'
+>>>>>>> 2-1-main
           , 'target': '_blank'
         });
         form.submit();

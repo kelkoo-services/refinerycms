@@ -8,7 +8,7 @@ module Refinery
     has_and_belongs_to_many :roles, :join_table => :refinery_roles_users
 
     has_many :plugins, :class_name => "UserPlugin", :order => "position ASC", :dependent => :destroy
-    friendly_id :username
+    friendly_id :username, :use => [:slugged]
 
     # Include default devise modules. Others available are:
     # :token_authenticatable, :confirmable, :lockable and :timeoutable
@@ -24,7 +24,11 @@ module Refinery
     attr_accessible :email, :password, :password_confirmation, :remember_me, :username, :plugins, :login
 
     validates :username, :presence => true, :uniqueness => true
+<<<<<<< HEAD
     before_validation :downcase_username
+=======
+    before_validation :downcase_username, :strip_username
+>>>>>>> 2-1-main
 
     class << self
       # Find user by email or username.
@@ -36,11 +40,28 @@ module Refinery
     end
 
     def plugins=(plugin_names)
-      if persisted? # don't add plugins when the user_id is nil.
-        UserPlugin.delete_all(:user_id => id)
+      return unless persisted?
 
+      plugin_names = plugin_names.dup
+      plugin_names.reject! { |plugin_name| !plugin_name.is_a?(String) }
+
+      if plugins.empty?
         plugin_names.each_with_index do |plugin_name, index|
-          plugins.create(:name => plugin_name, :position => index) if plugin_name.is_a?(String)
+          plugins.create(:name => plugin_name, :position => index)
+        end
+      else
+        assigned_plugins = plugins.all
+        assigned_plugins.each do |assigned_plugin|
+          if plugin_names.include?(assigned_plugin.name)
+            plugin_names.delete(assigned_plugin.name)
+          else
+            assigned_plugin.destroy
+          end
+        end
+
+        plugin_names.each do |plugin_name|
+          plugins.create(:name => plugin_name,
+                         :position => plugins.select(:position).map{|p| p.position.to_i}.max + 1)
         end
       end
     end
@@ -90,16 +111,28 @@ module Refinery
       username.to_s
     end
 
+<<<<<<< HEAD
     def to_param
       to_s.parameterize
     end
 
+=======
+>>>>>>> 2-1-main
     private
     # To ensure uniqueness without case sensitivity we first downcase the username.
     # We do this here and not in SQL is that it will otherwise bypass indexes using LOWER:
     # SELECT 1 FROM "refinery_users" WHERE LOWER("refinery_users"."username") = LOWER('UsErNAME') LIMIT 1
     def downcase_username
       self.username = self.username.downcase if self.username?
+<<<<<<< HEAD
+=======
+    end
+
+    # To ensure that we aren't creating "admin" and "admin " as the same thing.
+    # Also ensures that "admin user" and "admin    user" are the same thing.
+    def strip_username
+      self.username = self.username.strip.gsub(/\ {2,}/, ' ') if self.username?
+>>>>>>> 2-1-main
     end
 
   end

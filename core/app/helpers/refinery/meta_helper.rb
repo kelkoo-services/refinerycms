@@ -5,10 +5,10 @@ module Refinery
     #
     def browser_title(yield_title=nil)
       [
-        (yield_title if yield_title.present?),
-        @meta.browser_title.present? ? @meta.browser_title : @meta.path,
+        yield_title,
+        @meta.browser_title.presence || @meta.path,
         Refinery::Core.site_name
-      ].compact.join(" - ")
+      ].reject(&:blank?).join(" - ")
     end
 
     # you can override the object used for the title by supplying options[:object]
@@ -46,6 +46,10 @@ module Refinery
         tag << "</#{options[:ancestors][:tag]}>#{final_title}"
         tag.html_safe
       end
+    end
+
+    def canonical_id(page)
+      "#{page.canonical_slug}-page" if page
     end
 
   end

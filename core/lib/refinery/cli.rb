@@ -4,6 +4,17 @@ module Refinery
   class CLI < Thor
     include Thor::Actions
 
+<<<<<<< HEAD
+=======
+    no_tasks do
+      def source_paths
+        Refinery::Plugins.registered.pathnames.map{|p|
+          %w(app vendor).map{|dir| p.join(dir, @override_kind[:dir])}
+        }.flatten.uniq
+      end
+    end
+
+>>>>>>> 2-1-main
     OVERRIDES = {
       :view => {
         :glob => '*.{erb,builder}',
@@ -20,6 +31,14 @@ module Refinery
         :dir => 'models',
         :desc => 'model',
       },
+<<<<<<< HEAD
+=======
+      :helper => {
+        :glob => '*.rb',
+        :dir => 'helpers',
+        :desc => 'helper',
+      },
+>>>>>>> 2-1-main
       :presenter => {
         :glob => '*.rb',
         :dir => 'presenters',
@@ -31,7 +50,11 @@ module Refinery
         :desc => 'javascript',
       },
       :stylesheet => {
+<<<<<<< HEAD
         :glob => '*.css.scss',
+=======
+        :glob => '*.css{,.scss}',
+>>>>>>> 2-1-main
         :dir => 'assets/stylesheets',
         :desc => 'stylesheet',
       },
@@ -42,6 +65,7 @@ module Refinery
       OVERRIDES.keys.each do |kind|
         if (which = env[kind.to_s]).present?
           return _override(kind, which)
+<<<<<<< HEAD
         end
       end
 
@@ -58,11 +82,30 @@ module Refinery
           puts "rake refinery:override #{type}=#{example}"
         end
       end
+=======
+        end
+      end
+
+      puts "You didn't specify anything valid to override. Here are some examples:"
+      {
+        :view => ['pages/home', 'refinery/pages/home', '**/*menu', '_menu_branch'],
+        :javascript => %w(admin refinery/site_bar wymeditor**/{**/}*),
+        :stylesheet => %w(home refinery/site_bar),
+        :controller => %w(pages),
+        :model => %w(page refinery/page),
+        :helper => %w(site_bar refinery/site_bar_helper),
+        :presenter => %w(refinery/page_presenter)
+      }.each do |type, examples|
+        examples.each do |example|
+          puts "rake refinery:override #{type}=#{example}"
+        end
+      end
+>>>>>>> 2-1-main
     end
 
     desc "uncrudify", "shows you the code that your controller using crudify is running for a given action"
     def uncrudify(controller, action)
-      unless (controller_name = controller).present? and (action = action).present?
+      unless (controller_name = controller).present? && (action = action).present?
         abort <<-HELPDOC.strip_heredoc
           You didn't specify anything to uncrudify. Here's some examples:
           rake refinery:uncrudify controller=refinery/admin/pages action=create
@@ -78,19 +121,19 @@ module Refinery
       end
 
       crud_lines = Refinery.roots(:'refinery/core').join('lib', 'refinery', 'crud.rb').read
-      if (matches = crud_lines.scan(/(\ +)(def #{action}.+?protected)/m).first).present? and
+      if (matches = crud_lines.scan(/(\ +)(def #{action}.+?protected)/m).first).present? &&
          (method_lines = "#{matches.last.split(%r{^#{matches.first}end}).first.strip}\nend".split("\n")).many?
-        indent = method_lines.second.index(%r{[^ ]})
-        crud_method = method_lines.join("\n").gsub(/^#{" " * indent}/, "  ")
+        indent = method_lines.second.index %r{[^ ]}
+        crud_method = method_lines.join("\n").gsub /^#{" " * indent}/, "  "
 
         crud_options = controller_class.try(:crudify_options) || {}
-        crud_method.gsub!('#{options[:redirect_to_url]}', crud_options[:redirect_to_url].to_s)
-        crud_method.gsub!('#{options[:conditions].inspect}', crud_options[:conditions].inspect)
-        crud_method.gsub!('#{options[:title_attribute]}', crud_options[:title_attribute])
-        crud_method.gsub!('#{singular_name}', crud_options[:singular_name])
-        crud_method.gsub!('#{class_name}', crud_options[:class_name])
-        crud_method.gsub!('#{plural_name}', crud_options[:plural_name])
-        crud_method.gsub!('\\#{', '#{')
+        crud_method.gsub! '#{options[:redirect_to_url]}', crud_options[:redirect_to_url].to_s
+        crud_method.gsub! '#{options[:conditions].inspect}', crud_options[:conditions].inspect
+        crud_method.gsub! '#{options[:title_attribute]}', crud_options[:title_attribute]
+        crud_method.gsub! '#{singular_name}', crud_options[:singular_name]
+        crud_method.gsub! '#{class_name}', crud_options[:class_name]
+        crud_method.gsub! '#{plural_name}', crud_options[:plural_name]
+        crud_method.gsub! '\\#{', '#{'
 
         puts crud_method
       end
@@ -99,6 +142,7 @@ module Refinery
     private
 
     def _override(kind, which)
+<<<<<<< HEAD
       override_kind = OVERRIDES[kind]
       pattern = "{refinery#{File::SEPARATOR},}#{which.split("/").join(File::SEPARATOR)}#{override_kind[:glob]}"
       looking_for = ::Refinery::Plugins.registered.pathnames.map{|p| p.join("app", override_kind[:dir], pattern).to_s}
@@ -120,5 +164,35 @@ module Refinery
         puts "Couldn't match any #{override_kind[:desc]} files in any extensions like #{which}"
       end
     end
+=======
+      @override_kind = OVERRIDES[kind]
+
+      matcher = [
+        "{refinery#{File::SEPARATOR},}",
+        which.split('/').join(File::SEPARATOR),
+        @override_kind[:glob]
+      ].flatten.join
+
+      if (matches = find_relative_matches(matcher)).present?
+        matches.each do |match|
+          copy_file match, Rails.root.join('app', @override_kind[:dir], match)
+        end
+      else
+        puts "Couldn't match any #{@override_kind[:desc]} files in any extensions like #{which}"
+      end
+    end
+
+    def find_matches(pattern)
+      Set.new source_paths.map {|path| Dir[path.join(pattern)] }.flatten
+    end
+
+    def find_relative_matches(pattern)
+      find_matches(pattern).map {|match| strip_source_paths(match) }
+    end
+
+    def strip_source_paths(match)
+      match.gsub Regexp.new(source_paths.join('\/?|')), ''
+    end
+>>>>>>> 2-1-main
   end
 end

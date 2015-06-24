@@ -24,11 +24,14 @@
     <label><%= t('.maximum_image_size', :bytes => number_to_human_size(Refinery::Images.max_image_size)) %></label>
   </div>
 
+<<<<<<< HEAD
   <div class='field'>
     <%= f.label :alt %>
     <%= f.text_field :alt, :class => 'widest' %>
   </div>
 
+=======
+>>>>>>> 2-1-main
   <input type="hidden" name="wymeditor" value="<%= params[:wymeditor] %>">
 
   <%= render '/refinery/admin/form_actions', :f => f,
@@ -50,6 +53,6 @@
 <% if action_name =~ /(edit)|(update)/ %>
   <div id="existing_image">
     <label><%=t('.current_image') %></label>
-    <%= image_fu @image, '225x255>', :class => "brown_border" %>
+    <%= image_fu @thumbnail || @image, '225x255>', :class => 'brown_border' %>
   </div>
 <% end %>

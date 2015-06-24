@@ -1,6 +1,11 @@
 $(function() {
+<<<<<<< HEAD
   $('.tree .toggle').on('click', function(e) { 
     e.preventDefault(); 
+=======
+  $('.tree').on('click', '.toggle', function(e) {
+    e.preventDefault();
+>>>>>>> 2-1-main
     var $li   = $(this).parents('li:first');
     var $icon = $li.find('.icon.toggle');
     var $nested = $li.find('.nested');
@@ -10,7 +15,7 @@ $(function() {
       $nested.slideUp(); 
     }
     else {
-      var contentUrl = $nested.attr('data-ajax-content');
+      var contentUrl = $nested.data('ajax-content');
       $li.addClass('loading');
       
       $nested.load(contentUrl, function() {

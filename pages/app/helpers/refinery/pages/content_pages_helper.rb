@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 require 'refinery/pages/content_page_presenter'
 
+=======
+>>>>>>> 2-1-main
 module Refinery
   module Pages
     module ContentPagesHelper

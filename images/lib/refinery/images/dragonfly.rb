@@ -7,7 +7,6 @@ module Refinery
       class << self
         def setup!
           app_images = ::Dragonfly[:refinery_images]
-          app_images.configure_with(:imagemagick)
 
           app_images.define_macro(::Refinery::Image, :image_accessor)
 
@@ -17,9 +16,11 @@ module Refinery
 
         def configure!
           app_images = ::Dragonfly[:refinery_images]
+          app_images.configure_with(:imagemagick)
           app_images.configure_with(:rails) do |c|
             c.datastore.root_path = Refinery::Images.datastore_root_path
             c.url_format = Refinery::Images.dragonfly_url_format
+            c.url_host = Refinery::Images.dragonfly_url_host
             c.secret = Refinery::Images.dragonfly_secret
             c.trust_file_extensions = Refinery::Images.trust_file_extensions
           end
@@ -34,9 +35,16 @@ module Refinery
               s3.region = Refinery::Images.s3_region if Refinery::Images.s3_region
             end
           end
+
+          if Images.custom_backend?
+            app_images.datastore = Images.custom_backend_class.new(Images.custom_backend_opts)
+          end
         end
 
+        ##
+        # Injects Dragonfly::Middleware for Refinery::Images into the stack
         def attach!(app)
+<<<<<<< HEAD
           ### Extend active record ###
           app.config.middleware.insert_before Refinery::Images.dragonfly_insert_before,
                                               'Dragonfly::Middleware', :refinery_images
@@ -46,6 +54,13 @@ module Refinery
             :metastore   => "file:#{Rails.root.join('tmp', 'dragonfly', 'cache', 'meta')}",
             :entitystore => "file:#{Rails.root.join('tmp', 'dragonfly', 'cache', 'body')}"
           }
+=======
+          if ::Rails.application.config.action_controller.perform_caching
+            app.config.middleware.insert_after 'Rack::Cache', 'Dragonfly::Middleware', :refinery_images
+          else
+            app.config.middleware.use 'Dragonfly::Middleware', :refinery_images
+          end
+>>>>>>> 2-1-main
         end
       end
 

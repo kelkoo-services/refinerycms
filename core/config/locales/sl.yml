@@ -43,13 +43,17 @@ sl:
         resource: vir
       search:
         button_text: Išči
-        results_for: Iskalni rezultati za '%{query}'
+        results_for_html: "Iskalni rezultati za &#8216;<em>%{query}</em>&#8217;"
         no_results: Ni bilo zadetkov
       delete:
         message: Ali ste prepričani da želite odstraniti '%{title}'?
       error_messages:
         problems_in_following_fields: Prišlo je do težav v naslednjih poljih
       help: pomoč
+      form_advanced_options_menu:
+        advanced_options: Napredne Možnosti
+        toggle_advanced_options: Klinite za dostop do nastavitev meta značk in opcij menija
+        save_as_draft: Shrani kot Osnutek
     message:
       close: Zapri
       close_this_message: Zapri to sporočilo

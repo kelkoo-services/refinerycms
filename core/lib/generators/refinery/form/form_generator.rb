@@ -12,6 +12,7 @@ module Refinery
     end
 
     def generate
+<<<<<<< HEAD
       sanity_check!
 
       evaluate_templates!
@@ -23,8 +24,15 @@ module Refinery
 
         append_extension_to_gemfile!
       end
+=======
+      default_generate!
+    end
 
-      finalize_extension!
+    protected
+>>>>>>> 2-1-main
+
+    def generator_command
+      'rails generate refinery:form'
     end
 
     protected

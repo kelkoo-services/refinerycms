@@ -20,8 +20,13 @@ h4. Setup
 
 h5. In your browser
 
+<<<<<<< HEAD:doc/guides/8 - Contributing/1 - Contributing to Refinery.textile
 * Login to "http://github.com":http://github.com
 * Go to "http://github.com/refinery/refinerycms":http://github.com/refinery/refinerycms
+=======
+* Login to "https://github.com":https://github.com
+* Go to "https://github.com/refinery/refinerycms":https://github.com/refinery/refinerycms
+>>>>>>> 2-1-main:doc/guides/8 - Contributing/1 - Contributing to Refinery.textile
 * If you have a fork of refinerycms already, delete it (_if you're not going to lose work. This makes it much easier for us to integrate your changes back in_)
 * Click on "fork" to make a fresh new fork on your own account.
 
@@ -41,13 +46,19 @@ h5. In your browser
 
 h4. I found an issue. Where do I file it?
 
+<<<<<<< HEAD:doc/guides/8 - Contributing/1 - Contributing to Refinery.textile
 * add it to "http://github.com/refinery/refinerycms/issues":http://github.com/refinery/refinerycms/issues - with as much detail as possible :-)
+=======
+* add it to "https://github.com/refinery/refinerycms/issues":https://github.com/refinery/refinerycms/issues - with as much detail as possible :-)
+>>>>>>> 2-1-main:doc/guides/8 - Contributing/1 - Contributing to Refinery.textile
 
 h4. Contributing a fix
 
-Make your changes to fix a bug. Next run the Refinery tests
+Make your changes to fix a bug. Next regenerate the dummy app and run the Refinery tests
 
 <shell>
+$ rm -rf spec/dummy
+$ bundle exec rake refinery:testing:dummy_app
 $ bundle exec rspec ./*/spec
 </shell>
 
@@ -66,7 +77,11 @@ TIP: if you've filed an issue on Github add "Closes GH-999" (replace 999 with yo
 $ git push origin master
 </shell>
 
+<<<<<<< HEAD:doc/guides/8 - Contributing/1 - Contributing to Refinery.textile
 Now go to "http://github.com/refinery/refinerycms":http://github.com/refinery/refinerycms and click "Pull Request". Type a nice message explaining what you've done and send the request.
+=======
+Now go to "https://github.com/refinery/refinerycms":https://github.com/refinery/refinerycms and click "Pull Request". Type a nice message explaining what you've done and send the request.
+>>>>>>> 2-1-main:doc/guides/8 - Contributing/1 - Contributing to Refinery.textile
 
 We'll merge it in if it's all good.
 
@@ -76,8 +91,8 @@ Take a look at this "page":https://github.com/refinery/refinerycms/wiki/Begin-De
 
 h3. Contributing financially
 
-Some of the effort that goes into Refinery CMS is covered by client work where requirements aren't met by the current implementation and so extensions are required.  Most of the effort, however, is done on a free basis by the core team and many contributors worldwide. 
+Some of the effort that goes into Refinery CMS is covered by client work where requirements aren't met by the current implementation and so extensions are required.  Most of the effort, however, is done on a free basis by the core team and many contributors worldwide.
 
-If you would like to contribute to Refinery CMS development by helping us to justify spending more time on it then you can "donate to the project at pledgie.":http://pledgie.com/campaigns/8431 
+If you would like to contribute to Refinery CMS development by helping us to justify spending more time on it then you can "donate to the project at pledgie.":http://pledgie.com/campaigns/8431
 
 All donations are very much appreciated and 100% of proceeds go toward making Refinery CMS even better.

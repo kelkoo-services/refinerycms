@@ -74,18 +74,22 @@ capybara-*html
 .sass-cache
 .sass-cache/*
 
-#rvm
+# rvm
 .rvmrc
 .rvmrc.*
 
-#rbenv
+# rbenv
 .rbenv-version
 
-#Sprockets
+# Sprockets
 public/assets
 
 #Gemfile's lock file
 Gemfile.lock
 
+<<<<<<< HEAD
 # Local Gemfile for developing without sharing dependencies (from master)
+=======
+# Local Gemfile for developing without sharing dependencies
+>>>>>>> 2-1-main
 .gemfile

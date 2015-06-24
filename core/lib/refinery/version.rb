@@ -1,8 +1,13 @@
 module Refinery
   class Version
     @major = 2
+<<<<<<< HEAD
     @minor = 0
     @tiny  = 10
+=======
+    @minor = 1
+    @tiny  = 5
+>>>>>>> 2-1-main
     @build = nil
 
     class << self

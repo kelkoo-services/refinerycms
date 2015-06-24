@@ -70,6 +70,13 @@ module Refinery
           r.should be_an_instance_of(Resource)
         end
       end
+
+      specify "each returned array item should be passed form parameters" do
+        params = {:file => [file, file, file], :fake_param => 'blah'}
+
+        Resource.should_receive(:create).exactly(3).times.with({:file => file, :fake_param => 'blah'})
+        Resource.create_resources(params)
+      end
     end
 
     describe "validations" do
@@ -98,7 +105,10 @@ module Refinery
         it "should contain an error message" do
           @resource.valid?
           @resource.errors.should_not be_empty
-          @resource.errors[:file].should == ["File should be smaller than #{Resources.max_file_size} bytes in size"]
+          @resource.errors[:file].should == Array(::I18n.t(
+            'too_big', :scope => 'activerecord.errors.models.refinery/resource',
+                       :size => Resources.max_file_size
+          ))
         end
       end
 
@@ -110,7 +120,9 @@ module Refinery
         it "has an error message" do
           @resource.valid?
           @resource.errors.should_not be_empty
-          @resource.errors[:file].should == ["You must specify file for upload"]
+          @resource.errors[:file].should == Array(::I18n.t(
+            'blank', :scope => 'activerecord.errors.models.refinery/resource'
+          ))
         end
       end
     end

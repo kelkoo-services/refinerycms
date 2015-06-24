@@ -24,15 +24,11 @@ module Refinery
       end
 
       def valid_templates(*pattern)
-        [Rails.root, Refinery::Plugins.registered.pathnames].flatten.uniq.map { |p|
-          p.join(*pattern)
-        }.map(&:to_s).map { |p|
-          Dir[p]
-        }.select(&:any?).flatten.map { |f|
-          File.basename(f)
-        }.map { |p|
-          p.split('.').first
-        }
+        ([Rails.root] | Refinery::Plugins.registered.pathnames).map { |p|
+          Dir[p.join(*pattern).to_s].flatten.map { |f|
+            File.basename(f).split('.').first
+          }
+        }.flatten.uniq
       end
 
       def default_parts_for(page)
@@ -50,7 +46,11 @@ end
 
 ActiveSupport.on_load(:active_record) do
   require 'awesome_nested_set'
+<<<<<<< HEAD
   require 'globalize3'
+=======
+  require 'globalize'
+>>>>>>> 2-1-main
 end
 require 'friendly_id'
 require 'seo_meta'

@@ -34,11 +34,18 @@ Add the following lines to your extension's Rakefile
 ENGINE_PATH = File.dirname(__FILE__)
 APP_RAKEFILE = File.expand_path("../spec/dummy/Rakefile", __FILE__)
 
+<<<<<<< HEAD:doc/guides/4 - Refinery Extensions/3 - Testing.textile
 load 'rails/tasks/engine.rake' if File.exists?(APP_RAKEFILE)
 
 require "refinerycms-testing"
 Refinery::Testing::Railtie.load_tasks
 Refinery::Testing::Railtie.load_dummy_tasks(ENGINE_PATH)
+=======
+load 'rails/tasks/extension.rake' if File.exists?(APP_RAKEFILE)
+
+require "refinerycms-testing"
+Refinery::Testing::Railtie.load_tasks
+>>>>>>> 2-1-main:doc/guides/4 - Refinery Extensions/3 - Testing.textile
 </ruby>
 
 And run the dummy application generator:
@@ -47,7 +54,11 @@ And run the dummy application generator:
 $ bundle exec rake refinery:testing:dummy_app
 </shell>
 
+<<<<<<< HEAD:doc/guides/4 - Refinery Extensions/3 - Testing.textile
 NOTE: To succesfully run rake tasks within your project you may need to add the +refinerycms-testing+ gem to your application's Gemfile, too.
+=======
+NOTE: To successfully run rake tasks within your project you may need to add the +refinerycms-testing+ gem to your application's Gemfile, too.
+>>>>>>> 2-1-main:doc/guides/4 - Refinery Extensions/3 - Testing.textile
 
 h3. Running the tests with Rake
 
@@ -59,6 +70,8 @@ This will run the rspec specs.
 
 This is the most simple way to execute the test suite and useful for a one time run.
 
+NOTE: If you get +Could not find table+ errors, it may help to delete the +spec/dummy+ directory and run +bundle exec rake refinery:testing:dummy_app+ again.
+
 h3. Running the tests with Guard
 
 We recommend using Guard if you like to develop using TDD. Guard will watch your project for changes in files. If a change is made to a spec or a file that is tested against, it will re-run only the necessary specs. This is a faster way to get feedback during your TDD cycles.
@@ -69,4 +82,8 @@ At your extension's root directory run:
 $ bundle exec guard start
 </shell>
 
+<<<<<<< HEAD:doc/guides/4 - Refinery Extensions/3 - Testing.textile
 Larger Rails apps, particularly on Ruby 1.9.2, may take several seconds (or more) to start up. If that's the case, you might also want to use Spork, which loads a single instance of the Rails environment and forks it to run tests, for even faster feedback cycles.
+=======
+Larger Rails apps, particularly on Ruby 1.9.2, may take several seconds (or more) to start up. If that's the case, you might also want to use Spork, which loads a single instance of the Rails environment and forks it to run tests, for even faster feedback cycles.
+>>>>>>> 2-1-main:doc/guides/4 - Refinery Extensions/3 - Testing.textile

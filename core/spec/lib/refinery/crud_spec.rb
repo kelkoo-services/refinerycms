@@ -28,10 +28,13 @@ module Refinery
       let!(:crud_dummy_two) { Refinery::CrudDummy.create! }
       let!(:crud_dummy_three) { Refinery::CrudDummy.create! }
 
+<<<<<<< HEAD
       before do
         controller.should_receive(:refinery_user_required?).and_return(false)
       end
 
+=======
+>>>>>>> 2-1-main
       it "orders dummies" do
         post :update_positions, {
           "ul" => {

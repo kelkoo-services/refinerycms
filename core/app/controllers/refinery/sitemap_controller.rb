@@ -7,11 +7,7 @@ module ::Refinery
 
       respond_to do |format|
         format.xml do
-          @locales = if defined?(::Refinery::I18n) && ::Refinery::I18n.enabled?
-                       ::Refinery::I18n.frontend_locales
-                     else
-                       [::I18n.locale]
-                     end
+          @locales = Refinery::I18n.frontend_locales
         end
       end
     end

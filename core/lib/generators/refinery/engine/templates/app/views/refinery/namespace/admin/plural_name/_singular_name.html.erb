@@ -1,9 +1,13 @@
+<<<<<<< HEAD
 <% title_attribute = (title = attributes.detect { |a| a.type.to_s == "string" }).present? ? title.name : title -%>
+=======
+<% title_attribute = (title = attributes.detect { |a| a.type.to_s == "string" }).present? ? title.name : 'title' -%>
+>>>>>>> 2-1-main
 <li class='clearfix record <%%= cycle("on", "on-hover") %>' id="<%%= dom_id(<%= singular_name %>) -%>">
   <span class='title'>
     <%%= <%= singular_name %>.<%= title_attribute %> %>
 <% if localized? %>
-    <%% if Refinery.i18n_enabled? and Refinery::I18n.frontend_locales.many? %>
+    <%% if Refinery::I18n.frontend_locales.many? %>
       <span class='preview'>
         <%% <%= singular_name %>.translations.each do |translation| %>
           <%% if translation.<%= title_attribute %>.present? %>

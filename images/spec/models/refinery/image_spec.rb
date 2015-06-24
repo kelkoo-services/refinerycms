@@ -6,9 +6,59 @@ module Refinery
     let(:image) { FactoryGirl.build(:image) }
     let(:created_image) { FactoryGirl.create(:image) }
 
-    context "with valid attributes" do
-      it "should report being valid" do
-        image.valid?.should be_true
+    describe "validations" do
+      describe "valid #image" do
+        before do
+          @file = Refinery.roots(:'refinery/images').join("spec/fixtures/beach.jpeg")
+          Images.stub(:max_image_size).and_return(File.read(@file).size + 10.megabytes)
+        end
+
+        it "should be valid when size does not exceed .max_image_size" do
+          Image.new(:image => @file).should be_valid
+        end
+      end
+
+      describe "too large #image" do
+        before do
+          @file = Refinery.roots(:'refinery/images').join("spec/fixtures/beach.jpeg")
+          Images.stub(:max_image_size).and_return(0)
+          @image = Image.new(:image => @file)
+        end
+
+        it "should not be valid when size exceeds .max_image_size" do
+          @image.should_not be_valid
+        end
+
+        it "should contain an error message" do
+          @image.valid?
+          @image.errors.should_not be_empty
+          @image.errors[:image].should == ["Image should be smaller than #{Images.max_image_size} bytes in size"]
+        end
+      end
+
+      describe "invalid argument for #image" do
+        before do
+          @image = Image.new
+        end
+
+        it "has an error message" do
+          @image.valid?
+          @image.errors.should_not be_empty
+          @image.errors[:image].should == ["You must specify an image for upload"]
+        end
+      end
+
+      context "when image exists" do
+        it "doesn't allow to replace it with image which has different file name" do
+          created_image.image = Refinery.roots(:'refinery/images').join("spec/fixtures/beach-alternate.jpeg")
+          created_image.should_not be_valid
+          created_image.should have_at_least(1).error_on(:image_name)
+        end
+
+        it "allows to replace it with image which has the same file name" do
+          created_image.image = Refinery.roots(:'refinery/images').join("spec/fixtures/beach.jpeg")
+          created_image.should be_valid
+        end
       end
     end
 
@@ -22,16 +72,16 @@ module Refinery
       end
 
       it "becomes different when supplying geometry" do
-        created_image.url.should_not == created_image.thumbnail('200x200').url
+        created_image.url.should_not == created_image.thumbnail(:geometry => '200x200').url
       end
 
       it "has different urls for each geometry string" do
-        created_image.thumbnail('200x200').url.should_not == created_image.thumbnail('200x201').url
+        created_image.thumbnail(:geometry => '200x200').url.should_not == created_image.thumbnail(:geometry => '200x201').url
       end
 
       it "uses right geometry when given a thumbnail name" do
         name, geometry = Refinery::Images.user_image_sizes.first
-        created_image.thumbnail(name).url.should == created_image.thumbnail(geometry).url
+        created_image.thumbnail(:geometry => name).url.should == created_image.thumbnail(:geometry => geometry).url
       end
     end
 
@@ -128,18 +178,23 @@ module Refinery
       end
     end
 
+<<<<<<< HEAD
     describe "validations" do
       describe "valid #image" do
         before do
           @file = Refinery.roots(:'refinery/images').join("spec/fixtures/beach.jpeg")
           Images.max_image_size = (File.read(@file).size + 10.megabytes)
         end
+=======
+    describe '#thumbnail_dimensions returns correctly with' do
+      let(:created_alternate_image) { FactoryGirl.create(:alternate_image) }
+>>>>>>> 2-1-main
 
-        it "should be valid when size does not exceed .max_image_size" do
-          Image.new(:image => @file).should be_valid
-        end
+      it 'nil' do
+        created_alternate_image.thumbnail_dimensions(nil).should == { :width => 376, :height => 184 }
       end
 
+<<<<<<< HEAD
       describe "too large #image" do
         before do
           @file = Refinery.roots(:'refinery/images').join("spec/fixtures/beach.jpeg")
@@ -156,19 +211,29 @@ module Refinery
           @image.errors.should_not be_empty
           @image.errors[:image].should == ["Image should be smaller than #{Images.max_image_size} bytes in size"]
         end
+=======
+      it '225x255>' do
+        created_alternate_image.thumbnail_dimensions('225x255>').should == { :width => 225, :height => 110 }
+>>>>>>> 2-1-main
       end
+    end
 
+<<<<<<< HEAD
       describe "invalid argument for #image" do
         before do
           @image = Image.new
         end
+=======
+    describe '#thumbnail_dimensions returns correctly with user-defined geometries' do
+      it ':medium' do
+        created_image.thumbnail_dimensions(:medium).should == { :width => 225, :height => 169 }
+      end
+>>>>>>> 2-1-main
 
-        it "has an error message" do
-          @image.valid?
-          @image.errors.should_not be_empty
-          @image.errors[:image].should == ["You must specify an image for upload"]
-        end
+      it ':large' do
+        created_image.thumbnail_dimensions(:large).should == { :width => 450, :height => 338 }
       end
     end
+
   end
 end

@@ -1,6 +1,5 @@
 # Encoding: UTF-8
-$:.push File.expand_path('../../core/lib', __FILE__)
-require 'refinery/version'
+require File.expand_path('../../core/lib/refinery/version', __FILE__)
 
 version = Refinery::Version.to_s
 
@@ -9,7 +8,11 @@ Gem::Specification.new do |s|
   s.name              = %q{refinerycms-testing}
   s.version           = version
   s.summary           = %q{Testing plugin for Refinery CMS}
+<<<<<<< HEAD
   s.description       = %q{This plugin adds the ability to run rspec against the Refinery CMS gem while inside a Refinery CMS project}
+=======
+  s.description       = %q{This plugin adds the ability to tests against the Refinery CMS gem while inside a Refinery CMS extension}
+>>>>>>> 2-1-main
   s.email             = %q{info@refinerycms.com}
   s.homepage          = %q{http://refinerycms.com}
   s.rubyforge_project = %q{refinerycms}
@@ -20,8 +23,17 @@ Gem::Specification.new do |s|
   s.files             = `git ls-files`.split("\n")
 
   s.add_dependency 'refinerycms-core',        version
+<<<<<<< HEAD
   s.add_dependency 'database_cleaner',        '~> 0.7.2'
   s.add_dependency 'factory_girl_rails',      '~> 1.7.0'
   s.add_dependency 'rspec-rails',             '~> 2.11'
   s.add_dependency 'capybara',                '~> 2.1.0'
+=======
+  s.add_dependency 'database_cleaner',        '~> 1.2.0'
+  s.add_dependency 'factory_girl_rails',      '~> 4.2.1'
+  s.add_dependency 'rspec-rails',             '~> 2.13'
+  s.add_dependency 'capybara',                '~> 2.1.0'
+  s.add_dependency 'selenium-webdriver',      '~> 2.38.0'
+  s.add_dependency 'mime-types',              '~> 1.16'
+>>>>>>> 2-1-main
 end

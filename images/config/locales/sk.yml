@@ -24,8 +24,7 @@ sk:
             switch_to: Prepnúť pohľad na %{view_name}
             list: zoznam
             grid: tabuľka
-        grid_view:
-          view_live_html: Zobraziť obrázok. <br/><em>Otvorí sa v novom okne.</em>
+        view_live_html: Zobraziť obrázok. <br/><em>Otvorí sa v novom okne.</em>
         existing_image:
           button_text: Vložiť
           resize_image: Upraviť veľkosť?
@@ -42,4 +41,8 @@ sk:
           blank: Musíte zadať obrázok ktorý chcete nahrať.
           too_big: Maximálna veľkosť obrázku %{size}MB in size.
           incorrect_format: 'Obrázok musí byť vo formáte JPG, PNG alebo GIF.'
+<<<<<<< HEAD
           different_file_name: Nový obrázok nesmie mať odlišný názov súboru
+=======
+          different_file_name: Nový obrázok nesmie mať odlišný názov súboru
+>>>>>>> 2-1-main

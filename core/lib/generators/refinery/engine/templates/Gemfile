@@ -2,8 +2,12 @@ source "http://rubygems.org"
 
 gemspec
 
+<<<<<<< HEAD
 gem 'refinerycms', '~> 2.0.3'
 gem 'refinerycms-i18n', '~> 2.0.2'
+=======
+gem 'refinerycms', '~> 2.1.0'
+>>>>>>> 2-1-main
 
 # Database Configuration
 platforms :jruby do
@@ -20,6 +24,7 @@ platforms :ruby do
 end
 
 group :development, :test do
+<<<<<<< HEAD
   gem 'refinerycms-testing', '~> 2.0.3'
   gem 'guard-rspec', '~> 0.7.0'
 
@@ -44,9 +49,19 @@ group :development, :test do
         gem 'libnotify',  '~> 0.7.2'
         gem 'therubyracer', '~> 0.10.0'
       end
+=======
+  gem 'refinerycms-testing', '~> 2.1.0'
+
+  platforms :ruby do
+    require 'rbconfig'
+    if RbConfig::CONFIG['target_os'] =~ /linux/i
+      gem 'therubyracer', '~> 0.11.4'
+>>>>>>> 2-1-main
     end
   end
+end
 
+<<<<<<< HEAD
   platforms :jruby do
     unless ENV['TRAVIS']
       require 'rbconfig'
@@ -59,6 +74,14 @@ group :development, :test do
       end
     end
   end
+=======
+# Gems used only for assets and not required
+# in production environments by default.
+group :assets do
+  gem 'sass-rails'
+  gem 'coffee-rails'
+  gem 'uglifier'
+>>>>>>> 2-1-main
 end
 
 # Gems used only for assets and not required

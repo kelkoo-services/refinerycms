@@ -1,7 +1,7 @@
 require "spec_helper"
 
 describe Refinery::Admin::UsersController do
-  login_refinery_superuser
+  refinery_login_with_factory :refinery_superuser
 
   shared_examples_for "new, create, update, edit and update actions" do
     it "loads roles" do
@@ -53,7 +53,11 @@ describe Refinery::Admin::UsersController do
 
   describe "#edit" do
     it "renders the edit template" do
+<<<<<<< HEAD
       get :edit, :id => refinery_superuser.id
+=======
+      get :edit, :id => logged_in_user.id
+>>>>>>> 2-1-main
       response.should be_success
       response.should render_template("refinery/admin/users/edit")
     end
@@ -62,11 +66,27 @@ describe Refinery::Admin::UsersController do
   end
 
   describe "#update" do
+<<<<<<< HEAD
     it "updates a user" do
       user = FactoryGirl.create(:refinery_user)
       Refinery::User.should_receive(:find).at_least(1).times{ user }
       put "update", :id => user.id.to_s, :user => {}
+=======
+    let(:additional_user) { FactoryGirl.create :refinery_user }
+    it "updates a user" do
+      Refinery::User.should_receive(:find).at_least(1).times{ additional_user }
+      put "update", :id => additional_user.id.to_s, :user => {}
+>>>>>>> 2-1-main
       response.should be_redirect
+    end
+
+    context "when specifying plugins" do
+      it "won't allow to remove 'Users' plugin from self" do
+        Refinery::User.should_receive(:find).at_least(1).times{ logged_in_user }
+        put "update", :id => logged_in_user.id.to_s, :user => {:plugins => ["some plugin"]}
+
+        flash[:error].should eq("You cannot remove the 'Users' plugin from the currently logged in account.")
+      end
     end
 
     it_should_behave_like "new, create, update, edit and update actions"

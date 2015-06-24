@@ -9,7 +9,7 @@ sk:
         delete: Zmazať tohto užívateľa
         edit: Editovať tohto užívateľa
         update:
-          cannot_remove_user_plugin_from_current_user: Nemôžete odstrániť modul 'Users' z aktuálne prihláseného konta.
+          lockout_prevented: Nemôžete odstrániť modul 'Users' z aktuálne prihláseného konta.
         form:
           blank_password_keeps_current: Ak necháte toto pole prázdne bude zachované súčasné heslo.
           plugin_access: Prístup k modulom
@@ -23,8 +23,14 @@ sk:
     sessions:
       new:
         hello_please_sign_in: Prosím prihláste sa.
-        sign_in: Prihlásenie
+        sign_in: Prihlásiť sa
         forgot_password: Zabudol som heslo
+    user_mailer:
+      reset_notification:
+        subject: Odkaz pre reset hesla
+        reset_request_received_for: "Požiadavka na vytvorenie nového hesla pre používateľské konto %{username}"
+        visit_this_url: Navštívte túto URL pre zvolenie nového hesla.
+        remain_same_if_no_action: 'Vaše heslo zostane nezmenené, ak nevykonáte žiadnu akciu.'
     users:
       new:
         fill_form: Vyplňte údaje a môžeme začať.
@@ -44,12 +50,6 @@ sk:
         successful: "Heslo bolo úspešne resetované pre '%{email}'"
         pick_new_password_for: "Zadajte nové heslo pre %{email}"
         reset_password: Reset hesla
-    user_mailer:
-      reset_notification:
-        subject: Odkaz pre reset hesla
-        reset_request_received_for: "Požiadavka na vytvorenie nového hesla pre používateľské konto %{username}"
-        visit_this_url: Navštívte túto URL pre zvolenie nového hesla.
-        remain_same_if_no_action: 'Vaše heslo zostane nezmenené, ak nevykonáte žiadnu akciu.'
     roles:
       superuser: Superužívateľ
       refinery: Refinery
@@ -64,7 +64,7 @@ sk:
       refinery/user: užívateľ
     attributes:
       refinery/user:
-        login: Prihlásiť
+        login: Užívateľské meno alebo email
         username: Užívateľské meno
         password: Heslo
         password_confirmation: Potvrdiť heslo

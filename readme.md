@@ -4,7 +4,11 @@ __An open source Ruby on Rails content management system for Rails 3.__
 
 More information at [http://refinerycms.com](http://refinerycms.com)
 
+<<<<<<< HEAD
 [![Build Status](https://secure.travis-ci.org/refinery/refinerycms.png)](http://travis-ci.org/refinery/refinerycms)
+=======
+[![Build Status](https://travis-ci.org/refinery/refinerycms.png?branch=master)](https://travis-ci.org/refinery/refinerycms)  [![Code Climate](https://codeclimate.com/github/refinery/refinerycms.png)](https://codeclimate.com/github/refinery/refinerycms)
+>>>>>>> 2-1-main
 
 ## Requirements
 
@@ -16,7 +20,11 @@ More information at [http://refinerycms.com](http://refinerycms.com)
 
 * __[Install Refinery CMS](http://refinerycms.com/download)__
 * [Install Refinery CMS on Heroku](http://refinerycms.com/guides/heroku)
+<<<<<<< HEAD
 * [Contribute to Refinery CMS](http://refinerycms.com/guides/contributing-to-refinery)
+=======
+* [Contribute to Refinery CMS](readme.md#contributing)
+>>>>>>> 2-1-main
 
 ## Getting Started
 
@@ -56,7 +64,7 @@ Wanna see Refinery for yourself? [Try the demo](http://demo.refinerycms.com/refi
 ### Pages
 
 * Easily edit and manage pages with a [WYSIWYG visual editor](http://www.wymeditor.org/).
-* Manage you site's structure.
+* Manage your site's structure.
 
 ### Images & Files
 
@@ -74,27 +82,57 @@ Wanna see Refinery for yourself? [Try the demo](http://demo.refinerycms.com/refi
 * Manage who can access Refinery.
 * Control which extensions each user has access to.
 * Uses the popular [Devise](https://github.com/plataformatec/devise).
+<<<<<<< HEAD
 
 Extend Refinery easily by running the Refinery extension generator. 
+=======
+
+### Custom Extensions
+
+Extend Refinery easily by running the Refinery extension generator.
+>>>>>>> 2-1-main
 For help run the command without any options:
 
     rails generate refinery:engine
 
+<<<<<<< HEAD
 ### Popular Engines
 
 * [Blog](https://github.com/refinery/refinerycms-blog) - A simple blogging extension that supports posts, categories and comments (with moderation support if you choose to enable it)
 * [Portfolio](https://github.com/refinery/refinerycms-portfolio) - manage groups of images like an image gallery.
 * [News](https://github.com/refinery/refinerycms-news) - post and manage news items.
 
+=======
+### Popular Extensions
+
+* [Blog](https://github.com/refinery/refinerycms-blog) - A simple blogging extension that supports posts, categories and comments with optional moderation support.
+* [Portfolio](https://github.com/refinery/refinerycms-portfolio) - manage groups of images like an image gallery.
+* [News](https://github.com/refinery/refinerycms-news) - post and manage news items.
+* [Inquiries](https://github.com/refinery/refinerycms-inquiries) - simple contact form that notifies you and customer when an inquiry is made.
+
+>>>>>>> 2-1-main
 [Full extension list here](http://refinerycms.com/engines)
 
 ### Example Site Showcase
 
 [List here (add your link when you're done)](https://github.com/refinery/refinerycms/wiki/Example-Site-Showcase)
+<<<<<<< HEAD
 
 ## License
 
 Refinery is released under the [MIT license](https://github.com/refinery/refinerycms/blob/master/license.md#readme) and is copyright (c) 2005-2012 [Resolve Digital](http://www.resolvedigital.com)
+=======
+
+## Contributing
+
+See [contributing.md](contributing.md)
+and [Contributing to Refinery](http://refinerycms.com/guides/contributing-to-refinery)
+guide for details about contributing and running test.
+
+## License
+
+Refinery is released under the MIT license. See the [license.md file](license.md#readme) for details.
+>>>>>>> 2-1-main
 
 ### Credits
 

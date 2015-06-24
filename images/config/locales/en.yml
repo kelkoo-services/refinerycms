@@ -24,8 +24,7 @@ en:
             switch_to: Switch to %{view_name} view
             list: list
             grid: grid
-        grid_view:
-          view_live_html: View this image <br/><em>Opens in a new window</em>
+        view_live_html: View this image <br/><em>Opens in a new window</em>
         existing_image:
           button_text: Insert
           resize_image: Resize the image?
@@ -42,6 +41,10 @@ en:
           blank: You must specify an image for upload
           too_big: Image should be smaller than %{size} bytes in size
           incorrect_format: 'Your image must be either a JPG, PNG or GIF'
+<<<<<<< HEAD
     attributes:
       refinery/image:
         alt: "Alt Text"
+=======
+          different_file_name: New image can't have different file name
+>>>>>>> 2-1-main

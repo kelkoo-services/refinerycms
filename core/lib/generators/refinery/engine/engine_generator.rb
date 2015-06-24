@@ -18,10 +18,10 @@ module Refinery
     end
 
     def generate
-      sanity_check!
+      default_generate!
+    end
 
-      evaluate_templates!
-
+<<<<<<< HEAD
       unless options[:pretend]
         merge_locales!
 
@@ -29,16 +29,31 @@ module Refinery
 
         append_extension_to_gemfile!
       end
-
-      finalize_extension!
+=======
+    def backend_route
+      @backend_route ||= if namespacing.underscore != plural_name
+        %Q{"#\{Refinery::Core.backend_route\}/#{namespacing.underscore}"}
+      else
+        "Refinery::Core.backend_route"
+      end
     end
 
+    protected
+>>>>>>> 2-1-main
+
+    def generator_command
+      'rails generate refinery:engine'
+    end
+
+<<<<<<< HEAD
   protected
 
     def generator_command
       'rails generate refinery:engine'
     end
 
+=======
+>>>>>>> 2-1-main
     def reject_file_with_skip_frontend?(file)
       (skip_frontend? && (file.to_s.include?('app') && file.to_s.scan(/admin|models|mailers/).empty?)) ||
         reject_file_without_skip_frontend?(file)

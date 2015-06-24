@@ -37,10 +37,23 @@ $ rake db:seed
 h3. Adding Friendly ID
 
 In your model, add the following lines after the opening +class+ line:
+<<<<<<< HEAD:doc/guides/4 - Refinery Extensions/4 - Pretty URLs.textile
+=======
 
 <ruby>
   extend FriendlyId
   friendly_id :title, :use => [:slugged]
+</ruby>
+>>>>>>> 2-1-main:doc/guides/4 - Refinery Extensions/4 - Pretty URLs.textile
+
+And in your controller, use the following instead of StaffMember.find
+<ruby>
+<<<<<<< HEAD:doc/guides/4 - Refinery Extensions/4 - Pretty URLs.textile
+  extend FriendlyId
+  friendly_id :title, :use => [:slugged]
+=======
+  StaffMember.friendly.find(params[:id])
+>>>>>>> 2-1-main:doc/guides/4 - Refinery Extensions/4 - Pretty URLs.textile
 </ruby>
 
 If you want to use a different field than +title+ from which to generate the URL, be sure to change the first symbol after +friendly_id+ to be in accordance (for example, many extensions use +name+ instead).

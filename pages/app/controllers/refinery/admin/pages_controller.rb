@@ -1,24 +1,22 @@
 module Refinery
   module Admin
     class PagesController < Refinery::AdminController
-      cache_sweeper Refinery::PageSweeper
+      include Pages::InstanceMethods
+      cache_sweeper Pages::PageSweeper
 
       crudify :'refinery/page',
               :order => "lft ASC",
               :include => [:translations, :children],
               :paging => false
 
-      after_filter lambda{::Refinery::Page.expire_page_caching}, :only => [:update_positions]
-
-      before_filter :load_valid_templates, :only => [:edit, :new]
-
-      before_filter :restrict_access, :only => [:create, :update, :update_positions, :destroy],
-                    :if => proc { Refinery.i18n_enabled? }
+      before_filter :load_valid_templates, :only => [:edit, :new, :create]
+      before_filter :restrict_access, :only => [:create, :update, :update_positions, :destroy]
+      after_filter proc { Pages::Caching.new().expire! }, :only => :update_positions
 
       def new
-        @page = Refinery::Page.new(params.except(:controller, :action, :switch_locale))
-        Refinery::Pages.default_parts_for(@page).each_with_index do |page_part, index|
-          @page.parts << Refinery::PagePart.new(:title => page_part, :position => index)
+        @page = Page.new(params.except(:controller, :action, :switch_locale))
+        Pages.default_parts_for(@page).each_with_index do |page_part, index|
+          @page.parts << PagePart.new(:title => page_part, :position => index)
         end
       end
 
@@ -42,8 +40,13 @@ module Refinery
                 redirect_to :back
               else
                 render :partial => 'save_and_continue_callback', :locals => {
+<<<<<<< HEAD
                   :new_refinery_page_path => refinery.admin_page_path(@page.uncached_nested_url),
                   :new_page_path => refinery.preview_page_path(@page.uncached_nested_url)
+=======
+                  :new_refinery_page_path => refinery.admin_page_path(@page.nested_url),
+                  :new_page_path => refinery.pages_admin_preview_page_path(@page.nested_url)
+>>>>>>> 2-1-main
                 }
               end
             end
@@ -66,8 +69,13 @@ module Refinery
 
     protected
 
+      def after_update_positions
+        find_all_pages
+        render :partial => '/refinery/admin/pages/sortable_list' and return
+      end
+
       def find_page
-        @page = Refinery::Page.find_by_path_or_id(params[:path], params[:id])
+        @page = Page.find_by_path_or_id(params[:path], params[:id])
       end
       alias_method :page, :find_page
 
@@ -77,15 +85,22 @@ module Refinery
         return super unless action_name.to_s == 'index'
 
         # Always display the tree of pages from the default frontend locale.
+<<<<<<< HEAD
         Globalize.locale = params[:switch_locale].try(:to_sym) || Refinery::I18n.default_frontend_locale
+=======
+        if Refinery::I18n.built_in_locales.keys.map(&:to_s).include?(params[:switch_locale])
+          Globalize.locale = params[:switch_locale].try(:to_sym)
+        else
+          Globalize.locale = Refinery::I18n.default_frontend_locale
+        end
+>>>>>>> 2-1-main
       end
 
       def load_valid_templates
-        @valid_layout_templates = Refinery::Pages.layout_template_whitelist &
-                                  Refinery::Pages.valid_templates('app', 'views', '{layouts,refinery/layouts}', '*html*')
+        @valid_layout_templates = Pages.layout_template_whitelist &
+                                  Pages.valid_templates('app', 'views', '{layouts,refinery/layouts}', '*html*')
 
-        @valid_view_templates = Refinery::Pages.view_template_whitelist &
-                                Refinery::Pages.valid_templates('app', 'views', '{pages,refinery/pages}', '*html*')
+        @valid_view_templates = Pages.valid_templates('app', 'views', '{pages,refinery/pages}', '*html*')
       end
 
       def restrict_access

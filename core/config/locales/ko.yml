@@ -50,13 +50,17 @@ ko:
         current: 현재 파일
       search:
         button_text: 검색
-        results_for: "'%{query}'에 대한 검색 결과"
+        results_for_html: "&#8216;<em>%{query}</em>&#8217;에 대한 검색 결과"
         no_results: 죄송합니다. 아무런 결과도 찾을 수 없습니다.
       delete:
         message: "'%{title}'을(를) 삭제하시겠습니까?"
       error_messages:
         problems_in_following_fields: 다음 항목에서 문제를 발견했습니다
       help: 도움말
+      form_advanced_options_menu:
+        advanced_options: 고급 설정
+        toggle_advanced_options: 메타 태그 및 메뉴 설정 변경
+        save_as_draft: 초안 저장
     message:
       close: 닫기
       close_this_message: 이 메시지 닫기

@@ -11,14 +11,16 @@ module Refinery
           app_resources.define_macro(::Refinery::Resource, :resource_accessor)
 
           app_resources.analyser.register(::Dragonfly::Analysis::FileCommandAnalyser)
-          app_resources.content_disposition = :attachment
+          app_resources.content_disposition = Refinery::Resources.content_disposition
         end
 
         def configure!
           app_resources = ::Dragonfly[:refinery_resources]
-          app_resources.configure_with(:rails) do |c|
+          app_resources.configure_with(:rails)
+          app_resources.configure do |c|
             c.datastore.root_path = Refinery::Resources.datastore_root_path
             c.url_format = Refinery::Resources.dragonfly_url_format
+            c.url_host = Refinery::Resources.dragonfly_url_host
             c.secret = Refinery::Resources.dragonfly_secret
           end
 
@@ -32,18 +34,20 @@ module Refinery
               s3.region = Refinery::Resources.s3_region if Refinery::Resources.s3_region
             end
           end
+
+          if Resources.custom_backend?
+            app_resources.datastore = Resources.custom_backend_class.new(Resources.custom_backend_opts)
+          end
         end
 
+        ##
+        # Injects Dragonfly::Middleware for Refinery::Images into the stack
         def attach!(app)
-          ### Extend active record ###
-          app.config.middleware.insert_before Refinery::Resources.dragonfly_insert_before,
-                                              'Dragonfly::Middleware', :refinery_resources
-
-          app.config.middleware.insert_before 'Dragonfly::Middleware', 'Rack::Cache', {
-            :verbose     => Rails.env.development?,
-            :metastore   => "file:#{URI.encode(Rails.root.join('tmp', 'dragonfly', 'cache', 'meta').to_s)}",
-            :entitystore => "file:#{URI.encode(Rails.root.join('tmp', 'dragonfly', 'cache', 'body').to_s)}"
-          }
+          if ::Rails.application.config.action_controller.perform_caching
+            app.config.middleware.insert_after 'Rack::Cache', 'Dragonfly::Middleware', :refinery_resources
+          else
+            app.config.middleware.use 'Dragonfly::Middleware', :refinery_resources
+          end
         end
       end
 

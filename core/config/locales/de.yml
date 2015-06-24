@@ -34,8 +34,8 @@ de:
         delete: Löschen
         close: Schließen
       image_picker:
-        none_selected: Es ist momentan kein %{what} ausgewählt, bitte klicken Sie hier, um eins hinzuzufügen.
-        remove_current: Entferne aktuelles %{what}
+        none_selected: Es ist momentan kein Bild ausgewählt, bitte klicken Sie hier, um eins hinzuzufügen.
+        remove_current: Entferne aktuelles Bild
         change: Klicken Sie hier, um ein Bild auszuwählen
         show: anzeigen
       resource_picker:
@@ -47,13 +47,17 @@ de:
         current: Aktuelle Datei
       search:
         button_text: Suchen
-        results_for: Suchergebnisse für '%{query}'
+        results_for_html: "Suchergebnisse für &#8216;<em>%{query}</em>&#8217;"
         no_results: Tut mir leid, Suche brachte keine Ergebnisse
       delete:
         message: Sind Sie sicher, dass Sie '%{title}' löschen möchten?
       error_messages:
         problems_in_following_fields: Es gab Probleme mit den folgenden Feldern
       help: Hilfe
+      form_advanced_options_menu:
+        advanced_options: Erweiterte Optionen
+        toggle_advanced_options: Klicken Sie hier, für die Meta-Tag-Einstellungen und Menüoptionen
+        save_as_draft: Als Entwurf speichern
     message:
       close: Schließen
       close_this_message: Diese Meldung schließen

@@ -2,4 +2,8 @@
       :hide_sections => local_assigns[:hide_sections],
       :can_use_fallback => !local_assigns[:show_empty_sections] && !local_assigns[:remove_automatic_sections]
     }) %>
+<<<<<<< HEAD
 <%= render '/refinery/draft_page_message' unless @page.nil? or @page.live? -%>
+=======
+<%= render '/refinery/draft_page_message' unless @page.try(:live?) -%>
+>>>>>>> 2-1-main

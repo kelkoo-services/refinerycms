@@ -1,6 +1,5 @@
 # Encoding: UTF-8
-$:.push File.expand_path('../../core/lib', __FILE__)
-require 'refinery/version'
+require File.expand_path('../../core/lib/refinery/version', __FILE__)
 
 version = Refinery::Version.to_s
 
@@ -20,8 +19,15 @@ Gem::Specification.new do |s|
   s.files             = `git ls-files`.split("\n")
   s.test_files        = `git ls-files -- spec/*`.split("\n")
 
+<<<<<<< HEAD
   s.add_dependency 'awesome_nested_set',          '~> 2.1.3'
   s.add_dependency 'seo_meta',                    '~> 1.3.0'
+=======
+  s.add_dependency 'friendly_id',                 '~> 4.0.9'
+  s.add_dependency 'globalize',                   '~> 3.1.0'
+  s.add_dependency 'awesome_nested_set',          '~> 2.1.3'
+  s.add_dependency 'seo_meta',                    '~> 1.4.0'
+>>>>>>> 2-1-main
   s.add_dependency 'refinerycms-core',            version
   s.add_dependency 'babosa',                      '!= 0.3.6'
 end

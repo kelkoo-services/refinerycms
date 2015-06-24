@@ -1,17 +1,54 @@
 require 'spec_helper'
 require 'generator_spec/test_case'
 require 'generators/refinery/engine/engine_generator'
+<<<<<<< HEAD
+=======
+require 'tmpdir'
+>>>>>>> 2-1-main
 
 module Refinery
   describe EngineGenerator do
     include GeneratorSpec::TestCase
+<<<<<<< HEAD
     destination File.expand_path("../../../../../../tmp", __FILE__)
+=======
+    destination Dir.mktmpdir
+>>>>>>> 2-1-main
 
     before do
       prepare_destination
       run_generator %w{ rspec_product_test title:string description:text image:image brochure:resource }
     end
 
+<<<<<<< HEAD
+=======
+    context "when generating a resource without passing a namespace" do
+      before do
+        run_generator %w{ rspec_item_test title:string --extension rspec_product_tests --skip }
+      end
+
+      it "uses the extension name for the namespace" do
+        destination_root.should have_structure {
+          directory "vendor" do
+            directory "extensions" do
+              directory "rspec_product_tests" do
+                directory "app" do
+                  directory "controllers" do
+                    directory "refinery" do
+                      directory "rspec_product_tests" do
+                        file "rspec_item_tests_controller.rb"
+                      end
+                    end
+                  end
+                end
+              end
+            end
+          end
+        }
+      end
+    end
+
+>>>>>>> 2-1-main
     context "when generating a resource inside existing extensions dir" do
 
       before do

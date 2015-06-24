@@ -15,13 +15,20 @@ Refinery::Resources.configure do |config|
   # config.s3_bucket_name = ENV['S3_BUCKET']
   # config.s3_access_key_id = ENV['S3_KEY']
   # config.s3_secret_access_key = ENV['S3_SECRET']
-  # config.s3_region = ENV['S3_REGION]
+  # config.s3_region = ENV['S3_REGION']
 
   # Configure Dragonfly
   # This is where in the middleware stack to insert the Dragonfly middleware
   # config.dragonfly_insert_before = <%= Refinery::Resources.dragonfly_insert_before.inspect %>
   # config.dragonfly_secret = <%= Refinery::Resources.dragonfly_secret.inspect %>
   # config.dragonfly_url_format = <%= Refinery::Resources.dragonfly_url_format.inspect %>
+  # config.dragonfly_url_host = <%= Refinery::Resources.dragonfly_url_host.inspect %>
   # config.datastore_root_path = <%= Refinery::Resources.datastore_root_path.inspect %>
+  # config.content_disposition = <%= Refinery::Resources.content_disposition.inspect %>
+
+  # Configure Dragonfly custom storage backend
+  # The custom_backend setting by default defers to the core setting for this but can be set just for resources.
+  # config.custom_backend_class = <%= Refinery::Resources.custom_backend_class.inspect %>
+  # config.custom_backend_opts = <%= Refinery::Resources.custom_backend_opts.inspect %>
 
 end

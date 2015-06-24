@@ -47,13 +47,17 @@ lt:
         current: Pasirinktas failas
       search:
         button_text: Ieškoti
-        results_for: Paieškos rezultatai užklausai '%{query}'
+        results_for_html: "Paieškos rezultatai užklausai &#8216;<em>%{query}</em>&#8217;"
         no_results: Atsiprašome ieškoma frazė nerastas
       delete:
         message: Tikrai norite pašalinti '%{title}'?
       error_messages:
         problems_in_following_fields: Su šiais laukais iškilo problemų
       help: pagalba
+      form_advanced_options_menu:
+        advanced_options: Papildomi nustatymai
+        toggle_advanced_options: Paspauskite norėdami matyti puslapio meta nustatymus ir meniu pasirinkimus
+        save_as_draft: Išsaugoti kaip juodraštį
     message:
       close: Uždaryti
       close_this_message: Uždaryti šią žinutę
